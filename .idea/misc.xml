@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="/opt/miniconda3" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="/opt/miniconda3" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="py" project-jdk-type="Python SDK" />
 </project>
