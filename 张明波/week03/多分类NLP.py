@@ -23,18 +23,24 @@ class TorchModel(nn.Module):
         super(TorchModel, self).__init__()
         self.embedding = nn.Embedding(len(vocab), vector_dim, padding_idx=0)  # embedding层
         self.pool = nn.AvgPool1d(sentence_length)   # 池化层
-        self.classify = nn.RNN(vector_dim, 128)     # RNN
+        self.layer1 = nn.RNN(input_size=vector_dim, hidden_size=128, batch_first=True)     # RNN
+        self.layer2 = nn.Linear(vector_dim, vector_dim)
         # self.activation = torch.sigmoid     # sigmoid归一化函数
         self.loss = nn.functional.cross_entropy  # loss函数采用交叉熵
 
     #当输入真实标签，返回loss值；无真实标签，返回预测值
     def forward(self, x, y=None):
         x = self.embedding(x)                      #(batch_size, sen_len) -> (batch_size, sen_len, vector_dim)
+        # print("embedding shape: ", x.shape)
+        x, h = self.layer1(x)                       #(batch_size, vector_dim) -> (batch_size, 1) 3*5 5*1 -> 3*1
         x = x.transpose(1, 2)                      #(batch_size, sen_len, vector_dim) -> (batch_size, vector_dim, sen_len)
         x = self.pool(x)                           #(batch_size, vector_dim, sen_len)->(batch_size, vector_dim, 1)
-        x = x.squeeze()                            #(batch_size, vector_dim, 1) -> (batch_size, vector_dim)
-        y_pred, h = self.classify(x)                       #(batch_size, vector_dim) -> (batch_size, 1) 3*5 5*1 -> 3*1
-        # y_pred = self.activation(x)                #(batch_size, 1) -> (batch_size, 1)
+        y_pred = x.squeeze()                            #(batch_size, vector_dim, 1) -> (batch_size, vector_dim)
+        # print("y_pred shape: ", y_pred.shape)
+        # if y is not None:
+        #     print("y shape: ", y.shape)
+        y_pred = self.layer2(y_pred)                #(batch_size, 1) -> (batch_size, 1)
+        # print(y_pred, y)
         if y is not None:
             return self.loss(y_pred, y)   #预测值和真实值计算损失
         else:
