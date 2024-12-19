@@ -27,15 +27,8 @@ class TorchModel(nn.Module):
 # generate a single sample based on the classification rule
 def build_sample():
     x = np.random.random(5) # Generate random 5-dimensional vector
-    sum1 = float(x[0] + x[1])  # First two components
-    sum2 = float(x[2] + x[3])  # Middle two components
-    sum3 = float(x[4] + x[0])  # Last and first components
-    if sum1 > max(sum2, sum3):
-        return x, 0 # Class 0
-    if sum2 > max(sum1, sum3):
-        return x, 1 # Class 1
-    else:
-        return x, 2 # Class 2
+    label = np.argmax(x) # Find the index of the maximum value
+    return x, label
 
 # generate dataset
 def build_dataset(total_sample_num):
@@ -52,7 +45,6 @@ def evaluate(model):
     model.eval() # Set the model to evaluation mode
     test_sample_num = 100
     x, y = build_dataset(test_sample_num) # Generate 100 samples
-    print("There are %d class 0 samples, %d class 1 samples, and %d class 2 samples in the test set" % (sum(y == 0), sum(y == 1), sum(y == 2)))
     y_pred = model(x).argmax(dim=1) # Predict the labels
     # Count correct predictions
     correct = (y_pred == y).sum().item()
@@ -67,7 +59,7 @@ def train():
     batch_size = 20 # Batch size
     train_sample = 5000 # Number of training samples
     input_size = 5 # Input size
-    num_classes = 3 # Number of classes
+    num_classes = 5 # Number of classes
     learning_rate = 0.01 # Learning rate
 
     # initialize the model and optimizer
@@ -80,14 +72,14 @@ def train():
         model.train() # Set the model to training mode
         train_x, train_y = build_dataset(train_sample) # Generate training samples
         watch_loss = []
-        for batch_index in range(0, train_sample, batch_size):
-            x = train_x[batch_index: batch_index + batch_size]
-            y = train_y[batch_index: batch_index + batch_size]
-            loss = model(x, y) # Compute loss
-            optimizer.zero_grad() # Reset gradients
-            loss.backward() # Compute gradients
-            optimizer.step() # Update weights
-            watch_loss.append(loss.item()) # Store loss
+        for batch_index in range(train_sample // batch_size):
+            x = train_x[batch_index * batch_size: (batch_index + 1) * batch_size]
+            y = train_y[batch_index * batch_size: (batch_index + 1) * batch_size]
+            loss = model(x, y)  # Compute loss
+            optimizer.zero_grad()  # Reset gradients
+            loss.backward()  # Compute gradients
+            optimizer.step()  # Update weights
+            watch_loss.append(loss.item())  # Store loss
 
         # Print epoch stats
         print(f"Epoch {epoch + 1}/{epoch_num}, Loss: {np.mean(watch_loss):.4f}")
@@ -106,7 +98,7 @@ def train():
 # Predict function
 def predict(model_path, input_vec):
     input_size = 5
-    num_classes = 3
+    num_classes = 5
     model = TorchModel(input_size, num_classes)
     model.load_state_dict(torch.load(model_path))
     model.eval()

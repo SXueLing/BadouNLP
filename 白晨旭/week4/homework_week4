@@ -1,0 +1,83 @@
+#week3作业
+
+#词典；每个词后方存储的是其词频，词频仅为示例，不会用到，也可自行修改
+Dict = {"经常":0.1,
+        "经":0.05,
+        "有":0.1,
+        "常":0.001,
+        "有意见":0.1,
+        "歧":0.001,
+        "意见":0.2,
+        "分歧":0.2,
+        "见":0.05,
+        "意":0.05,
+        "见分歧":0.05,
+        "分":0.1}
+
+#待切分文本
+sentence = "经常有意见分歧"
+
+#实现全切分函数，输出根据字典能够切分出的所有的切分方式
+def all_cut(sentence: str, Dict: dict) -> list:
+    """
+    对给定的句子进行全切分，返回所有可能的切分方式。
+
+    :param sentence: 待切分的句子
+    :param Dict: 词典，包含词语及其词频
+    :return: 切分结果列表，每个元素是一个切分后的词列表
+    """
+    from functools import lru_cache
+
+    @lru_cache(maxsize=None)
+    def _all_cut(s):
+        if not s:
+            return [[]]  # 返回一个空列表，表示一种切分方式
+        result = []
+        for i in range(1, len(s)+1):
+            prefix = s[:i]
+            if prefix in Dict:
+                # 递归切分剩余的部分
+                for suffix in _all_cut(s[i:]):
+                    result.append([prefix] + suffix)
+        return result
+
+    return _all_cut(sentence)
+
+#目标输出;顺序不重要
+target = [
+    ['经常', '有意见', '分歧'],
+    ['经常', '有意见', '分', '歧'],
+    ['经常', '有', '意见', '分歧'],
+    ['经常', '有', '意见', '分', '歧'],
+    ['经常', '有', '意', '见分歧'],
+    ['经常', '有', '意', '见', '分歧'],
+    ['经常', '有', '意', '见', '分', '歧'],
+    ['经', '常', '有意见', '分歧'],
+    ['经', '常', '有意见', '分', '歧'],
+    ['经', '常', '有', '意见', '分歧'],
+    ['经', '常', '有', '意见', '分', '歧'],
+    ['经', '常', '有', '意', '见分歧'],
+    ['经', '常', '有', '意', '见', '分歧'],
+    ['经', '常', '有', '意', '见', '分', '歧']
+]
+if __name__ == '__main__':
+    result = all_cut(sentence, Dict)
+
+    # 为了便于比较，排序结果
+    result_sorted = sorted(result)
+    target_sorted = sorted(target)
+
+    # 打印结果
+    print("切分结果:")
+    for segmentation in result_sorted:
+        print(segmentation)
+
+    # 验证结果是否与目标一致
+    if result_sorted == target_sorted:
+        print("\n结果与目标一致。")
+    else:
+        print("\n结果与目标不一致。")
+        print("目标切分方式:")
+        for segmentation in target_sorted:
+            print(segmentation)
+

@@ -1,0 +1,137 @@
+import torch
+import torch.nn as nn
+import numpy as np
+import random
+import json
+
+
+#准备模型
+class TorchModel(nn.Module):
+    def __init__(self, vocab, char_dim, input_size, hide_size):
+        super(TorchModel, self).__init__()
+        self.embedding  = nn.Embedding(len(vocab), char_dim, padding_idx=0)  #embedding层
+        self.net = nn.RNN(input_size, hide_size, num_layers=3, batch_first=True)  #RNN层
+        self.loss = nn.functional.cross_entropy   #交叉熵函数
+
+    def forward(self, x, y = None):
+        x = self.embedding(x)   #经过激活层得到代表句子的张量   batch_size,sentence_len => (batch_size,sentence_len,char_dim)
+        output, _ = self.net(x)    #经过RNN得到
+        y_pred = output[:, -1, :]#   (batch_size,sentence_len,char_dim) => batch_size, hide_size
+        if y is not None:
+            return self.loss(y_pred, y)
+        else:
+            return torch.argmax(y_pred, dim = 1)
+
+
+#准备词典
+def build_vocab():
+    word = "梅花十三伍六七鸡大宝大春江主任赤牙青风黑鸟白狐首领"
+    vocab = {"pad" : 0}
+    for index, key in enumerate(word):
+        vocab[key] = index + 1
+    vocab["unk"] = len(vocab)
+    return vocab
+
+#生成样本
+def build_example(vocab, sentence_len):
+    x = [random.choice(list(vocab.keys())) for _ in range(sentence_len)] #随机生成一个长度为sentence_len的句子
+    aim_set = set("梅伍江赤黑")         #特殊字符集
+    intersection = set(x).intersection(aim_set)    #查找两个集合的交集
+    if intersection:
+        index = x.index(next(iter(intersection)))   #如果有交集，返回x中第一个特殊字符出现的索引
+        x = [vocab.get(key, "unk") for key in x]
+        return  x, index + 1
+    else:
+        x = [vocab.get(key, "unk") for key in x]
+        return x, 0
+
+
+#生成训练集
+def build_dataset(vocab, sentence_len, sample_num):
+    x_train = []
+    y_train = []
+    for i in range(sample_num):
+        x, y = build_example(vocab, sentence_len)
+        x_train.append(x)
+        y_train.append(y)
+    return torch.LongTensor(x_train), torch.LongTensor(y_train)
+
+
+#阶段性评估模型
+def test(vocab, model, sentence_len):
+    model.eval()     #设置为评估模式
+    eval_x, eval_y = build_dataset(vocab, sentence_len, 200)
+    y_pred = model(eval_x)
+    correct, wrong = 0, 0
+    for y_p, y_t in zip(y_pred, eval_y):
+        if y_p == y_t:
+            correct += 1
+        else:
+            wrong += 1
+    print("本轮评估正确个数为:%d个,正确率为:%f" % (correct, float(correct/(correct + wrong))))
+    return correct / (correct + wrong)
+
+
+#训练模型
+def main():
+    epoch_size = 20  #训练轮数
+    batch_size = 20  #每批训练量
+    train_num = 1000  #每轮训练量
+    sentence_len = 6   #句子长度
+    char_dim = 10  #单个字符维度
+    lr = 0.007 #学习率
+    input_size = 10   #rnn系数
+    hide_size = 7  #rnn系数  分类有多少类
+    vocab = build_vocab()    #建立词典
+    model = TorchModel(vocab, char_dim, input_size, hide_size)   #建立模型
+    optim = torch.optim.Adam(model.parameters(), lr = lr)   #选择优化器
+    log = []
+    #开始训练
+    for epoch in range(epoch_size):
+        model.train()    #训练模式
+        watch_loss = []    #单批loss值监控
+        for batch in range(train_num // batch_size):
+            batch_x, batch_y = build_dataset(vocab, sentence_len, batch_size)  #获取训练集
+            loss = model(batch_x, batch_y)   #计算loss
+            loss.backward()    #计算梯度
+            optim.step()   #权重更新
+            optim.zero_grad()  #梯度归零
+            watch_loss.append(loss.item())
+        print("第%d轮的损失率为:%f" % (epoch + 1, np.mean(watch_loss)))  #记录数据
+        acc = test(vocab, model, sentence_len)
+        log.append([acc, np.mean(watch_loss)])
+    #保存词典
+    with open('vocab.json', 'w', encoding='utf-8') as write:
+        json.dump(vocab, write, ensure_ascii=False, indent=2)
+    #保存模型
+    torch.save(model.state_dict(), "model.pth")
+
+
+def predict(vocab_path, model_path, predict_list):
+    sentence_len = 6
+    char_dim = 10
+    input_size = 10
+    hide_size = 7
+    vocab = json.load(open(vocab_path,'r',encoding='utf-8'))
+    model = TorchModel(vocab, char_dim, input_size, hide_size)
+    model.load_state_dict(torch.load(model_path,  weights_only = True))
+    x = []
+    for key in predict_list:
+        # 将句子转换为词汇表中的索引
+        indices = [vocab.get(char, vocab['unk']) for char in key]
+        # 填充或截断到指定长度
+        if len(indices) < sentence_len:
+            indices += [vocab['pad']] * (sentence_len - len(indices))
+        else:
+            indices = indices[:sentence_len]
+        x.append(indices)
+    with torch.no_grad():
+        result = model(torch.LongTensor(x))
+    for index, word in enumerate(predict_list):
+        print("预测句子为：%s, 预测类别为:%d" % (word, round(float(result[index]))))
+
+
+if  __name__ == "__main__":
+    main()
+    predict_list = ["梅花十三白狐", "伍六七鸡大宝", "鸡大宝", "大春", "首领江主任","青凤大春黑鸟"] #类别：1，1，0，0，3，5
+    predict("vocab.json", "model.pth", predict_list)

@@ -1,0 +1,111 @@
+Q1，nn.Linear(）是什么
+nn.Linear 是 PyTorch 中的一个线性全连接层（Fully Connected Layer）。
+线性层实现以下数学运算：
+y=x^W^T +b
+
+example:
+logits = self.linear(x)
+输入：x，形状为 (batch_size, 5)。
+输出：logits，形状为 (batch_size, 5)，表示每个分类的分数。
+
+Q2，nn.functional.cross_entropy是什么
+
+nn.functional.cross_entropy 是 PyTorch 中专门用于分类任务的损失函数（Cross Entropy Loss）。
+交叉熵损失用于衡量模型预测的分布（logits 转化的概率分布）与目标标签的分布之间的差异：
+CrossEntropyLoss = − 1/N * i=1~N∑ log(P(true)),
+P(true)是模型对真实类别的预测概率。N是样本数量。
+
+Q3，model(x, y)干什么？
+
+在 PyTorch 中，model() 实际调用的是 nn.Module 的 __call__ 方法，
+而这个方法会自动调用你定义的 forward 方法。这是 PyTorch 的设计机制。
+PyTorch 的 nn.Module 中，__call__ 被重写，具体逻辑如下：
+    （1）模型对象（model）调用时，触发 __call__ 方法。
+    （2）__call__ 方法内部自动调用 forward 方法。
+    （3）你定义的 forward 方法负责处理输入数据，并完成前向传播。
+
+    以下是 PyTorch 中 nn.Module 的核心部分：
+    class Module:
+        def __call__(self, *input, **kwargs):
+            # 一些额外的逻辑，比如 hooks（钩子函数）
+            return self.forward(*input, **kwargs)  # 自动调用 forward
+
+    （在 PyTorch 中，钩子函数（Hooks） 是一种功能强大的机制，
+    允许你在模型的前向传播或反向传播过程中插入自定义逻辑，用于调试、监控或修改计算过程。
+    钩子函数可以作用于 模块级别（如 nn.Linear） 或 张量级别（如中间结果的梯度）。）
+
+Q4，
+    def forward(self, x, y=None):
+        logits = self.linear(x)
+        if y is not None:
+            return self.loss(logits, y)
+        else:
+            return logits
+这里不是把y定义成none了吗，之后也没有y的运算，那当然y是none啊，为啥还要做判断if y is not None？
+
+    如果 y 没有被传入，默认值为 None；
+    如果调用时 传入 y， y 的值是你传入的真实类别标签。
+
+    判断 if y is not None 的必要性：
+    训练时需要损失计算，y 不为 None。返回 loss。
+    （损失值会用于反向传播，优化模型参数。）
+    测试时不需要损失计算，y 为 None。返回 logits。
+    （logits 可用于后续处理（如用 torch.softmax 转成概率，用 torch.argmax 提取预测类别）。）
+    这种设计让 forward 方法可以同时适应训练和测试的需求。
+
+Q5，super()函数解释？
+
+    super() 是 Python 中用于调用父类（基类）方法的函数。
+    它的主要作用是让子类能够方便地访问父类中定义的属性和方法。
+    当一个类继承另一个类时，子类会继承父类的属性和方法。
+    如果子类需要初始化或扩展父类的功能
+    （比如初始化方法 __init__），可以通过 super() 调用父类的对应方法，而不用显式指定父类名称。
+
+    基本语法：
+    class Parent:
+        def __init__(self):
+            print("Parent initialized")
+
+    class Child(Parent):
+        def __init__(self):
+            super().__init__()  # 调用父类的 __init__ 方法
+            print("Child initialized")
+    运行：
+    child = Child()
+    输出：
+    Parent initialized
+    Child initialized
+
+
+Q6, np.argmax()在axis没有的时候，是几维数组就返回几维index吗?
+
+    不是的。当 np.argmax() 没有指定 axis 参数时，它会将输入数组展平（flatten），
+    然后在展平后的 一维数组 上找到最大值的索引。
+    不论输入数组是几维，返回的索引始终是展平数组中的位置（单个标量）。
+
+    示例（不指定 axis 的效果）：
+        import numpy as np
+
+        # 示例 1: 一维数组
+        a = np.array([1, 3, 2, 7, 5])
+        print(np.argmax(a))  # 输出：3 (7 是最大值，它在第 3 个位置)
+
+        # 示例 2: 二维数组
+        b = np.array([[1, 5, 2],
+                    [7, 3, 4]])
+        print(np.argmax(b))  # 输出：3 (展平为 [1, 5, 2, 7, 3, 4]，最大值 7 的索引是 3)
+
+        # 示例 3: 三维数组
+        c = np.array([[[1, 2],
+                    [3, 4]],
+                    [[5, 6],
+                    [7, 8]]])
+        print(np.argmax(c))  # 输出：7 (展平为 [1, 2, 3, 4, 5, 6, 7, 8]，最大值 8 的索引是 7)
+        
+    示例：指定 axis 的效果
+        # 二维数组
+        b = np.array([[1, 5, 2],
+                    [7, 3, 4]])
+
+        print(np.argmax(b, axis=0))  # 输出： [1 0 1] (按列找最大值)
+        print(np.argmax(b, axis=1))  # 输出： [1 0] (按行找最大值)

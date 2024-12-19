@@ -1,0 +1,49 @@
+def all_cut(sentence, dictionary):
+    # 递归函数，返回从当前位置i开始的所有切分方式
+    def recursive_split(i):
+        # 如果已经处理到字符串末尾，返回一个包含空列表的结果，表示这是一种切分完成
+        if i == len(sentence):
+            return [[]]
+
+        # 存储从位置i开始的所有切分方式
+        result = []
+
+        # 遍历从当前位置开始的所有可能的子串
+        for j in range(i + 1, len(sentence) + 1):
+            word = sentence[i:j]
+            if word in dictionary:
+                # 如果当前子串在词库中，递归处理后续部分
+                rest_splits = recursive_split(j)
+                # 将当前词加到剩余部分的每种切分方式中
+                for rest in rest_splits:
+                    result.append([word] + rest)
+
+        return result
+
+    # 从句子的第0个位置开始递归
+    return recursive_split(0)
+
+
+#词典；每个词后方存储的是其词频，词频仅为示例，不会用到，也可自行修改
+Dict = {"经常":0.1,
+        "经":0.05,
+        "有":0.1,
+        "常":0.001,
+        "有意见":0.1,
+        "歧":0.001,
+        "意见":0.2,
+        "分歧":0.2,
+        "见":0.05,
+        "意":0.05,
+        "见分歧":0.05,
+        "分":0.1}
+
+#待切分文本
+sentence = "经常有意见分歧"
+
+# 获取所有可能的切分方式
+result = all_cut(sentence, Dict)
+
+# 输出所有可能的切分方式
+for way in result:
+    print(" ".join(way))
