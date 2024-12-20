@@ -34,7 +34,10 @@ class TorchModel(nn.Module):
 
         self.classify = nn.Linear(vector_dim, sentence_length)     #线性层
 
-        self.activation = torch.sigmoid     #sigmoid归一化函数
+        # self.activation = torch.sigmoid  # 无效激活函数，sigmoid归一化函数，对此类任务效果不好，上课：RNN的Tanh其实就是激活函数
+        self.activation = torch.nn.ReLU()                          # 有用激活函数
+        # self.activation = torch.nn.LeakyReLU(negative_slope=0.01)  # 有用激活函数
+        # self.activation = torch.nn.ELU(alpha=1.0)                  # 有用激活函数
 
         # self.loss = nn.functional.mse_loss  #loss函数采用均方差损失
         self.loss = nn.functional.cross_entropy
@@ -49,7 +52,10 @@ class TorchModel(nn.Module):
 
         x = x.squeeze()                            #(batch_size, vector_dim, 1) -> (batch_size, vector_dim)
         x = self.classify(x)                       #(batch_size, vector_dim) -> (batch_size, 1) 3*5 5*1 -> 3*1
+
+        # y_pred = x
         y_pred = self.activation(x)                #(batch_size, 1) -> (batch_size, 1)
+
         if y is not None:
             return self.loss(y_pred, y.long())   #预测值和真实值计算损失
         else:
@@ -132,7 +138,7 @@ def main():
     batch_size = 20       #每次训练样本个数
     train_sample = 500    #每轮训练总共训练的样本总数
     char_dim = 20         #每个字的维度
-    sentence_length = 3   #样本文本长度
+    sentence_length = 6   #样本文本长度
     learning_rate = 0.01 #学习率
     # 建立字表
     vocab = build_vocab()
@@ -171,7 +177,7 @@ def main():
 #使用训练好的模型做预测
 def predict(model_path, vocab_path, input_strings):
     char_dim = 20  # 每个字的维度
-    sentence_length = 3   #样本文本长度
+    sentence_length = 6   #样本文本长度
     vocab = json.load(open(vocab_path, "r", encoding="utf8")) #加载字符表
     model = build_model(vocab, char_dim, sentence_length)     #建立模型
     model.load_state_dict(torch.load(model_path))             #加载训练好的权重
@@ -188,5 +194,5 @@ def predict(model_path, vocab_path, input_strings):
 
 if __name__ == "__main__":
     main()
-    test_strings = ["你他d", "fe你", "d你他", "你de"]
+    test_strings = ["你他dxyz", "fe你stu", "d你他mno", "opq你de"]
     predict("./刘琦/week03/model.pth", "./刘琦/week03/vocab.json", test_strings)
