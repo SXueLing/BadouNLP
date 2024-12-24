@@ -8,49 +8,48 @@
 @Date    ：2024/12/18 星期三 21:47 
 '''
 
+Dict = {
+    "经常": 0.1,
+    "经": 0.05,
+    "有": 0.1,
+    "常": 0.001,
+    "有意见": 0.1,
+    "歧": 0.001,
+    "意见": 0.2,
+    "分歧": 0.2,
+    "见": 0.05,
+    "意": 0.05,
+    "见分歧": 0.05,
+    "分": 0.1
+}
 
-# 加载词前缀词典
-# 用0和1来区分是前缀还是真词
-# 需要注意有的词的前缀也是真词，在记录时不要互相覆盖
-def load_prefix_word_dict(path):
-    prefix_dict = {}
-    with open(path, encoding="utf8") as f:
-        for line in f:
-            word = line.split()[0]
-            for i in range(1, len(word)):
-                if word[:i] not in prefix_dict:  # 不能用前缀覆盖词
-                    prefix_dict[word[:i]] = 0  # 前缀
-            prefix_dict[word] = 1  # 词
-    return prefix_dict
+# 待切分文本
+sentence = "经常有意见分歧"
 
 
-def cut_method2(string, prefix_dict):
-    if string == "":
-        return []
-    words = []  # 准备用于放入切好的词
+def all_segmentations(sentence, vocab, memo=None):
+    if memo is None:
+        memo = {}
 
-    for i in range(len(string)):
-        start_index = i
-        end_index = i + 1
-        window = string[start_index:end_index]  # 从第一个字开始
+    if sentence in memo:
+        return memo[sentence]
 
-        while start_index < len(string):
-            find_word = window
-            if find_word not in prefix_dict or end_index > len(string):
-                break
-            elif prefix_dict[window] == 1:
-                words.append(find_word)
-                end_index += 1
-                window = string[start_index:end_index]
-            elif prefix_dict[window] == 0:
-                end_index += 1
-                window = string[start_index:end_index]
+    # 如果句子为空，返回一个空列表
+    if not sentence:
+        return [[]]
 
-    return words
+    results = []
+    for i in range(1, len(sentence) + 1):
+        word = sentence[:i]
+        if word in vocab or len(word) == 1:  # 单个字符总是被视为合法词汇
+            # 递归处理剩余部分
+            for rest in all_segmentations(sentence[i:], vocab, memo):
+                results.append([word] + rest)
+
+    memo[sentence] = results
+    return results
 
 
 if __name__ == '__main__':
-    test_data = "王羲之草书《平安帖》共有九行"
-    word_dict = load_prefix_word_dict("dict.txt")
-    find_words = cut_method2(test_data, word_dict)
+    find_words = all_segmentations(sentence, Dict)
     print(find_words)
