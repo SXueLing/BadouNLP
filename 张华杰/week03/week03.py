@@ -141,7 +141,7 @@ def predict(model_path, vocab_path, input_strings):
     sentence_length = 6  # 样本文本长度
     vocab = json.load(open(vocab_path, "r", encoding="utf8"))  # 加载字符表
     model = build_model(vocab, char_dim, sentence_length)  # 建立模型
-    model.load_state_dict(torch.load(model_path))  # 加载训练好的权重
+    model.load_state_dict(torch.load(model_path,weights_only=True))  # 加载训练好的权重
     x = []
     for input_string in input_strings:
         x.append([vocab[char] for char in input_string])  # 将输入序列化

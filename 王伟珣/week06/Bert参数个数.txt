@@ -1,0 +1,28 @@
+不考虑 LayerNorm 的参数的情况下：
+
+word_embeddings:  vocab_size * hidden_size
+	= 21128 * 768 = 16,226,304
+position_embeddings: type_vocab_size * hidden_size
+	= 512 * 768 = 393,216
+token_type_embeddings: max_position_embeddings * hidden_size
+	= 2 * 768 = 1,536
+
+BertEncoder = 12 x BertLayer:
+	--- BertAttention
+		Q: hidden_size x hidden_size + hidden_size
+			= 768 x 768 + 768 = 590,592
+		K: hidden_size x hidden_size + hidden_size
+			= 768 x 768 + 768 = 590,592
+		V: hidden_size x hidden_size + hidden_size
+			= 768 x 768 + 768 = 590,592
+		linear: hidden_size x hidden_size + hidden_size
+			= 768 x 768 + 768 = 590,592
+	--- BertFeedForward
+		linear_0: hidden_size x intermediate_size + intermediate_size 
+			= 768 x 3072 + 3072 = 2,362,368
+		linear_1: intermediate_size x hidden_size + hidden_size
+			= 3072 x 768 + 768= 2,360,064
+
+	= 12 x (590,592 x 4 + 2,362,368 + 2,360,064)= 12 x 7,675,392 = 85,017,600
+
+因此，Bert的参数个数 = 16,226,304 + 393,216 + 1,536 + 85,017,600 = 101,638,656
