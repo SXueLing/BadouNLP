@@ -24,22 +24,22 @@ class TorchModel(nn.Module):
         self.rnn = nn.RNN(vector_dim, vector_dim, batch_first=True)
 
         # +1的原因是可能出现a不存在的情况，那时的真实label在构造数据时设为了sentence_length
-        self.classify = nn.Linear(vector_dim, sentence_length + 1)     
+        self.classify = nn.Linear(vector_dim, sentence_length + 1)
         self.loss = nn.functional.cross_entropy
 
     #当输入真实标签，返回loss值；无真实标签，返回预测值
     def forward(self, x, y=None):
-        x = self.embedding(x)           
+        x = self.embedding(x)
         #使用pooling的情况
-        # x = x.transpose(1, 2)           
-        # x = self.pool(x)                
-        # x = x.squeeze()   
-        #使用rnn的情况              
+        # x = x.transpose(1, 2)
+        # x = self.pool(x)
+        # x = x.squeeze()
+        #使用rnn的情况
         rnn_out, hidden = self.rnn(x)
         x = rnn_out[:, -1, :]  #或者写hidden.squeeze()也是可以的，因为rnn的hidden就是最后一个位置的输出
 
         #接线性层做分类
-        y_pred = self.classify(x)            
+        y_pred = self.classify(x)
         if y is not None:
             return self.loss(y_pred, y)   #预测值和真实值计算损失
         else:
