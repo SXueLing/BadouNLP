@@ -1,0 +1,56 @@
+
+from transformers import BertModel
+
+
+bert = BertModel.from_pretrained(r"D:\NLP\pro\week6语言模型\bert-base-chinese", return_dict=False)
+
+sent_max_size =2
+vocab_size = bert.config.vocab_size
+print(vocab_size)
+vocab_len=4
+hidden_size = bert.config.hidden_size #768
+sent_max_length=512
+trans_num_lays=12
+for name,param in bert.named_parameters():
+    print(name, param.shape)
+#embedding
+word_embeddings_size =vocab_size*hidden_size
+position_embeddings_size =sent_max_length*hidden_size
+token_type_embeddings_size =sent_max_size*hidden_size
+embeddings_layer_norm_weight_size =hidden_size
+embeddings_layer_norm_bias_size = hidden_size
+embedding_num=word_embeddings_size+position_embeddings_size+token_type_embeddings_size+embeddings_layer_norm_weight_size+embeddings_layer_norm_bias_size
+
+#transformer  /per
+q_w_size = hidden_size*hidden_size
+q_b_size = hidden_size
+k_w_size = hidden_size*hidden_size
+k_b_size = hidden_size
+v_w_size = hidden_size*hidden_size
+v_b_size = hidden_size
+attention_output_weight_size =hidden_size*hidden_size
+attention_output_bias_size =hidden_size
+attention_layer_norm_w_size =hidden_size
+attention_layer_norm_b_size =hidden_size
+intermediate_weight_size =(vocab_len*hidden_size)*hidden_size
+intermediate_bias_size =vocab_len*hidden_size
+output_weight_size =hidden_size*(vocab_len*hidden_size)
+output_bias_size =hidden_size
+ff_layer_norm_w_size =hidden_size
+ff_layer_norm_b_size =hidden_size
+
+trans_num=trans_num_lays*(q_w_size+q_b_size+k_w_size+k_b_size+v_w_size+v_b_size
+                          +attention_output_weight_size+attention_output_bias_size
+                          +attention_layer_norm_w_size+attention_layer_norm_b_size
+                          +intermediate_weight_size+intermediate_bias_size
+                          +output_weight_size+output_bias_size
+                          +ff_layer_norm_w_size+ff_layer_norm_b_size)
+
+#pooler层
+pooler_weight_size=hidden_size*hidden_size
+pooler_bias_size=hidden_size
+pooler_num=pooler_weight_size+pooler_bias_size
+
+total_num=embedding_num+trans_num+pooler_num
+print(total_num)
+
