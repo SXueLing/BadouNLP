@@ -1,0 +1,37 @@
+词汇量大小 vocab_size: 30522
+hidden_size：768
+Embedding层: (vocab_size + 512 + 2) * hidden_size + hidden_size + hidden_size = 23837184
+    word_embeddings: vocab_size * hidden_size
+    position_embeddings: 512 * hidden_size
+    token_type_embeddings: 2 * hidden_size
+    归一化层： 
+        embeddings_layer_norm_weigh: hidden_size
+        embeddings_layer_norm_bias: hidden_size
+1层transformer层: 
+    self_attention层: (hidden_size * hidden_size + hidden_size) * 3 
+        q_w: hidden_size * hidden_size
+        q_b: hidden_size
+        k_w: hidden_size * hidden_size
+        k_b: hidden_size
+        v_w: hidden_size * hidden_size
+        v_b: hidden_size
+    Linear层：
+        attention_output_weight: hidden_size * hidden_size
+        attention_output_bias: hidden_size
+    归一化层：
+        attention_layer_norm_w: hidden_size
+        attention_layer_norm_b: hidden_size
+    Linear层：(放大四倍)
+        intermediate_weight: hidden_size*4 * hidden_size
+        intermediate_bias: hidden_size*4
+    Linear层：(缩小四倍)
+        output_weight: hidden_size * hidden_size*4
+        output_bias: hidden_size
+    归一化层：
+        ff_layer_norm_w: hidden_size
+        ff_layer_norm_b: hidden_size
+
+(hidden_size * hidden_size + hidden_size) * 3 + (hidden_size * hidden_size + hidden_size) + (hidden_size + hidden_size) * 2 +
+(hidden_size*4 * hidden_size + hidden_size*4) + (hidden_size * hidden_size*4 + hidden_size) = 7087872
+
+总参数量： Embedding层 + 1层transformer层 * 12 = 108891648
