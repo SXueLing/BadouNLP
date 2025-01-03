@@ -93,31 +93,34 @@ def main():
     cluster_centers = kmeans.cluster_centers_
     print("聚类中心", cluster_centers)
 
+    # 用于存储每个聚类内向量到中心点余弦相似度平均值
+    cluster_avg_similarity_dict = defaultdict(float)
     sentence_label_dict = defaultdict(list)
-    # 同时记录每个句子对应的向量，方便后续计算距离
     sentence_vector_dict = {}
     for sentence, vector in zip(sentences, vectors):
         label = kmeans.labels_[np.where((vectors == vector).all(axis=1))[0][0]]
         sentence_label_dict[label].append(sentence)
         sentence_vector_dict[sentence] = vector
 
-    for label, sentences_in_cluster in sentence_label_dict.items():
-        print("cluster %s :" % label)
-        # 获取当前聚类的中心向量
+        # 计算当前句子向量到对应聚类中心的余弦相似度
         center_vector = cluster_centers[label]
-        distance_sentence_list = []
+        cosine_similarity = np.dot(vector, center_vector) / (LA.norm(vector) * LA.norm(center_vector))
+        # 累加当前聚类内的余弦相似度
+        cluster_avg_similarity_dict[label] += cosine_similarity
+
+    # 计算每个聚类内的平均余弦相似度
+    for label in cluster_avg_similarity_dict:
+        cluster_avg_similarity_dict[label] /= len(sentence_label_dict[label])
+
+    # 将聚类按照平均余弦相似度进行排序
+    sorted_cluster_labels = sorted(cluster_avg_similarity_dict, key=lambda x: cluster_avg_similarity_dict[x], reverse=True)
+
+    for label in sorted_cluster_labels:
+        print("cluster %s :" % label)
+        print("平均余弦相似度:", cluster_avg_similarity_dict[label])
+        sentences_in_cluster = sentence_label_dict[label]
         for sentence in sentences_in_cluster:
-            vector = sentence_vector_dict[sentence]
-            # 计算余弦相似度，通过1 - 余弦相似度得到类似距离的衡量值
-            cosine_similarity = np.dot(vector, center_vector) / (LA.norm(vector) * LA.norm(center_vector))
-            distance = 1 - cosine_similarity
-            distance_sentence_list.append((distance, sentence))
-
-        # 按照距离从小到大排序
-        sorted_distance_sentence_list = sorted(distance_sentence_list, key=lambda x: x[0])
-
-        for distance, sentence in sorted_distance_sentence_list:
-            print("标题:", sentence.replace(" ", ""), " 余弦夹角值:", distance)
+            print("标题:", sentence.replace(" ", ""))
         print("---------")
 
 if __name__ == "__main__":
