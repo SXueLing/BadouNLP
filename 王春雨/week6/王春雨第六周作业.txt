@@ -1,0 +1,33 @@
+Embedding 层
+    vocab_size = 词表大小
+    hidden_size = 768
+    max_position_embeddings = 512
+    type_vocab_size = 2
+
+    Token Embeddings：vocab_size × hidden_size
+    Position Embeddings：max_position_embeddings × hidden_size
+    Segment Embeddings：type_vocab_size × hidden_size
+
+    Embedding层总参数 = vocab_size × hidden_size + max_position_embeddings × hidden_size + type_vocab_size × hidden_size
+
+Attention 层
+  
+   hidden_size = 768
+   num_attention_heads 多头数量
+   attention_head_size 多头维度大小
+
+    Q： hidden_size × hidden_size + hidden_size   或等于   hidden_size ×（num_attention_heads × attention_head_size）
+    K： hidden_size × hidden_size + hidden_size  或等于   hidden_size ×（num_attention_heads × attention_head_size）
+    V： hidden_size × hidden_size + hidden_size  或等于   hidden_size ×（num_attention_heads × attention_head_size）
+
+    线性层：hidden_size × hidden_size + hidden_size
+
+  Attention层 总参数 约为 4 *  （hidden_size × hidden_size + hidden_size）
+
+Feed Forward 层 
+    intermediate_size = 3072
+    hidden_size = 768
+    Liner 1  ：intermediate_size × hidden_size + hidden_size
+    Liner 2  ：hidden_size  × intermediate_size + hidden_size
+    Feed Forward层总参数 = hidden_size × intermediate_size + intermediate_size × hidden_size
+
