@@ -1,2 +1,0 @@
-homework
-print(1)
