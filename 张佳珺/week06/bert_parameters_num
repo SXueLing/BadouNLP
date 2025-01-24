@@ -1,0 +1,102 @@
+计算bert参数量：
+
+一、embedding层参数量：
+记词表大小为vocab_size，词向量维度为embedding_dim=768，文本长度最长为max_len，则，
+
+token embedding层参数量 = vocab_size * 768
+segment embedding层参数量 = 2 * 768
+position embedding层参数量 = max_len * 768
+layer noremalization层参数量 = 2 * 768
+
+三个embedding层参数量之和 = (vocab_size + 2 + max_len + 2) * 768，embedding层输出结果维数为[max_len, 768]
+
+二、transformer层参数量：
+分析一层transformer的参数量，记hidden_size=768，head=12，则，
+
+1、Attention：输入的x-[max_len, 768]，分别经过三个线性层（Q\K\V），每层的参数为768 * 768 + 768 * 1 (wx+b)，得到Q\K\V后利用多头机制multi-head计算Attention，得到Attention后经过线性层得到输出，参数为768 * 768 + 768 * 1，最后经过layer normalization层，参数为2 * 768。
+2、Feed Forward：输入的x-[max_len, 768]，经过两个线性层，参数为768 * 3072 + 3072 * 1 + 768 * 3072 + 768 * 1，最后经过layer normalization层，参数为2 * 768。
+
+一层transformer层参数量 = 3 * (768 * 768 + 768 * 1) + 768 * 768 + 768 * 1 + 2 * 768 + 768 * 3072 + 3072 * 1 + 768 * 3072 + 768 * 1 + 2 * 768，transformer层输出结果维数为[max_len, 768]
+
+三、pooler层参数量：
+
+pooler层参数量 = 768 * 768 + 768 * 1，pooler层输出结果维数为[1, 768]
+
+四、总参数量：
+
+总参数量 = embedding层参数量 + n * 一层transformer层参数量 + pooler层参数量，其中n为transformer层数，bert-base-uncased为12层，bert-large-uncased为24层。
+
+
+################## 输出各参数shape代码：
+
+import torch
+import math
+import numpy as np
+from transformers import BertModel
+
+'''
+
+通过手动矩阵运算实现Bert结构
+模型文件下载 https://huggingface.co/models
+
+'''
+# D:\八斗课程\AI人工智能培训\第六周 语言模型\bert-base-chinese
+# bert = BertModel.from_pretrained(r"F:\Desktop\work_space\pretrain_models\bert-base-chinese", return_dict=False)
+bert = BertModel.from_pretrained(r"D:\八斗课程\AI人工智能培训\第六周 语言模型\bert-base-chinese", return_dict=False)
+state_dict = bert.state_dict()
+bert.eval()
+x = np.array([2450, 15486, 102, 2110])   #假想成4个字的句子
+torch_x = torch.LongTensor([x])          #pytorch形式输入
+seqence_output, pooler_output = bert(torch_x) #seqence_output每个字的输出 batch_size*输入文本长度*768
+print(seqence_output.shape, pooler_output.shape)
+# print(seqence_output, pooler_output)
+
+print(bert.state_dict().keys())  #查看所有的权值矩阵名称
+
+class DiyBert:
+    #将预训练好的整个权重字典输入进来
+    def __init__(self, state_dict):
+        self.num_attention_heads = 12
+        self.hidden_size = 768
+        self.num_layers = 1        #注意这里的层数要跟预训练config.json文件中的模型层数一致,具体数值可调<=12即可
+        self.load_weights(state_dict)
+
+    def load_weights(self, state_dict):
+        #embedding部分
+        self.word_embeddings = state_dict["embeddings.word_embeddings.weight"].numpy()
+        self.position_embeddings = state_dict["embeddings.position_embeddings.weight"].numpy()
+        self.token_type_embeddings = state_dict["embeddings.token_type_embeddings.weight"].numpy()
+        self.embeddings_layer_norm_weight = state_dict["embeddings.LayerNorm.weight"].numpy()
+        self.embeddings_layer_norm_bias = state_dict["embeddings.LayerNorm.bias"].numpy()
+        print((self.word_embeddings.shape, self.position_embeddings.shape, self.token_type_embeddings.shape, self.embeddings_layer_norm_weight.shape, self.embeddings_layer_norm_bias.shape))
+        self.transformer_weights = []
+        #transformer部分，有多层
+        for i in range(self.num_layers):
+            q_w = state_dict["encoder.layer.%d.attention.self.query.weight" % i].numpy()
+            q_b = state_dict["encoder.layer.%d.attention.self.query.bias" % i].numpy()
+            k_w = state_dict["encoder.layer.%d.attention.self.key.weight" % i].numpy()
+            k_b = state_dict["encoder.layer.%d.attention.self.key.bias" % i].numpy()
+            v_w = state_dict["encoder.layer.%d.attention.self.value.weight" % i].numpy()
+            v_b = state_dict["encoder.layer.%d.attention.self.value.bias" % i].numpy()
+            attention_output_weight = state_dict["encoder.layer.%d.attention.output.dense.weight" % i].numpy()
+            attention_output_bias = state_dict["encoder.layer.%d.attention.output.dense.bias" % i].numpy()
+            attention_layer_norm_w = state_dict["encoder.layer.%d.attention.output.LayerNorm.weight" % i].numpy()
+            attention_layer_norm_b = state_dict["encoder.layer.%d.attention.output.LayerNorm.bias" % i].numpy()
+            intermediate_weight = state_dict["encoder.layer.%d.intermediate.dense.weight" % i].numpy()
+            intermediate_bias = state_dict["encoder.layer.%d.intermediate.dense.bias" % i].numpy()
+            output_weight = state_dict["encoder.layer.%d.output.dense.weight" % i].numpy()
+            output_bias = state_dict["encoder.layer.%d.output.dense.bias" % i].numpy()
+            ff_layer_norm_w = state_dict["encoder.layer.%d.output.LayerNorm.weight" % i].numpy()
+            ff_layer_norm_b = state_dict["encoder.layer.%d.output.LayerNorm.bias" % i].numpy()
+            self.transformer_weights.append([q_w, q_b, k_w, k_b, v_w, v_b, attention_output_weight, attention_output_bias,
+                                             attention_layer_norm_w, attention_layer_norm_b, intermediate_weight, intermediate_bias,
+                                             output_weight, output_bias, ff_layer_norm_w, ff_layer_norm_b])
+        print((q_w.shape, q_b.shape, k_w.shape, k_b.shape, v_w.shape, v_b.shape, attention_output_weight.shape, attention_output_bias.shape,
+               attention_layer_norm_w.shape, attention_layer_norm_b.shape, intermediate_weight.shape, intermediate_bias.shape,
+               output_weight.shape, output_bias.shape, ff_layer_norm_w.shape, ff_layer_norm_b.shape))
+        #pooler层
+        self.pooler_dense_weight = state_dict["pooler.dense.weight"].numpy()
+        self.pooler_dense_bias = state_dict["pooler.dense.bias"].numpy()
+        print((self.pooler_dense_weight.shape, self.pooler_dense_bias.shape))
+
+DiyBert(state_dict)

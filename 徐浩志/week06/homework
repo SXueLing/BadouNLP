@@ -1,0 +1,152 @@
+from collections import defaultdict
+
+import torch
+import math
+import numpy as np
+from transformers import BertModel
+
+'''
+
+'''
+
+bert = BertModel.from_pretrained(r"/Users/xuhaozhi/PycharmProjects/pythonProject/AI/week6/bert-base-chinese", return_dict=False)
+state_dict = bert.state_dict()
+class MyBert:
+    def __init__(self, state_dict, num_transformer_layers, num_attention_heads, hidden_size):
+        self.state_dict = state_dict    # transformer层 参数字典
+        self.num_transformer_layers = num_transformer_layers    # transformer层数
+        self.num_attention_heads = num_attention_heads  # 多头数量
+        self.hidden_size = hidden_size  #
+        # embedding weight
+        self.embedding_word_embeddings_weight = state_dict['embeddings.word_embeddings.weight'].numpy()
+        self.embeddings_position_embeddings_weight = state_dict['embeddings.position_embeddings.weight'].numpy()
+        self.embeddings_token_type_embeddings_weight = state_dict['embeddings.token_type_embeddings.weight'].numpy()
+        self.embeddings_LayerNorm_weight = state_dict['embeddings.LayerNorm.weight'].numpy()
+        self.embeddings_LayerNorm_bias = state_dict['embeddings.LayerNorm.bias'].numpy()
+        # transform weight 这一段实际在代码中没有用到
+        self.transformer_weight = []
+        for i in range(num_transformer_layers):
+            weighhs = defaultdict()
+            # attention
+            weighhs['qery_weight'] = state_dict['encoder.layer.{}.attention.self.query.weight'.format(i)].numpy()
+            weighhs['qery_bias'] = state_dict['encoder.layer.{}.attention.self.query.bias'.format(i)].numpy()
+            weighhs['key_weight'] = state_dict['encoder.layer.{}.attention.self.key.weight'.format(i)].numpy()
+            weighhs['key_bias'] = state_dict['encoder.layer.{}.attention.self.key.bias'.format(i)].numpy()
+            weighhs['value_weight'] = state_dict['encoder.layer.{}.attention.self.value.weight'.format(i)].numpy()
+            weighhs['value_bias'] = state_dict['encoder.layer.{}.attention.self.value.bias'.format(i)].numpy()
+            weighhs['attention_dense_weight'] = state_dict['encoder.layer.{}.attention.output.dense.weight'.format(i)].numpy()
+            weighhs['attention_dense_bias'] = state_dict['encoder.layer.{}.attention.output.dense.bias'.format(i)].numpy()
+            # bn
+            weighhs['bn_LayerNorm_weight1'] = state_dict['encoder.layer.{}.attention.output.LayerNorm.weight'.format(i)].numpy()
+            weighhs['bn_LayerNorm_bias1'] = state_dict['encoder.layer.{}.attention.output.LayerNorm.bias'.format(i)].numpy()
+            # ff
+            weighhs['ff_intermediate_weight'] = state_dict['encoder.layer.{}.intermediate.dense.weight'.format(i)].numpy()
+            weighhs['ff_intermediate_bias'] = state_dict['encoder.layer.{}.intermediate.dense.bias'.format(i)].numpy()
+            weighhs['ff_output_weight'] = state_dict['encoder.layer.{}.output.dense.weight'.format(i)].numpy()
+            weighhs['ff_output_bias'] = state_dict['encoder.layer.{}.output.dense.bias'.format(i)].numpy()
+            # bn
+            weighhs['bn_LayerNorm_weight2'] = state_dict['encoder.layer.{}.output.LayerNorm.weight'.format(i)].numpy()
+            weighhs['bn_LayerNorm_bias2'] = state_dict['encoder.layer.{}.output.LayerNorm.bias'.format(i)].numpy()
+            self.transformer_weight.append(weighhs)
+        # pooler weight
+        self.pooler_weight = state_dict['pooler.dense.weight'].numpy()
+        self.pooler_bias = state_dict['pooler.dense.bias'].numpy()
+
+    def layer_norm(self, x, w, b):
+        x = (x - np.mean(x, axis=1, keepdims=True))/np.std(x, axis=1, keepdims=True)
+        x = x * w + b   # 为啥不用 np.dot
+        return x
+
+    def embedding(self, x):
+        # word_embedding
+        word_embedding = [self.embedding_word_embeddings_weight[each] for each in x]
+        position_embedding = [self.embeddings_position_embeddings_weight[i] for i in range(len(x))]
+        token_type_embedding = [self.embeddings_token_type_embeddings_weight[0] for i in range(len(x))]
+        embedding_x = np.array(word_embedding) + np.array(position_embedding) + np.array(token_type_embedding)
+        # 归一
+        embedding_x = self.layer_norm(embedding_x, self.embeddings_LayerNorm_weight, self.embeddings_LayerNorm_bias)
+        return embedding_x
+
+    def transformer(self, x):
+
+        for i in range(self.num_transformer_layers):
+            # 取参数
+            qery_weight = state_dict['encoder.layer.{}.attention.self.query.weight'.format(i)].numpy()
+            qery_bias = state_dict['encoder.layer.{}.attention.self.query.bias'.format(i)].numpy()
+            key_weight = state_dict['encoder.layer.{}.attention.self.key.weight'.format(i)].numpy()
+            key_bias = state_dict['encoder.layer.{}.attention.self.key.bias'.format(i)].numpy()
+            value_weight = state_dict['encoder.layer.{}.attention.self.value.weight'.format(i)].numpy()
+            value_bias = state_dict['encoder.layer.{}.attention.self.value.bias'.format(i)].numpy()
+            attention_dense_weight = state_dict[
+                'encoder.layer.{}.attention.output.dense.weight'.format(i)].numpy()
+            attention_dense_bias = state_dict[
+                'encoder.layer.{}.attention.output.dense.bias'.format(i)].numpy()
+            # bn
+            bn_LayerNorm_weight1 = state_dict[
+                'encoder.layer.{}.attention.output.LayerNorm.weight'.format(i)].numpy()
+            bn_LayerNorm_bias1 = state_dict[
+                'encoder.layer.{}.attention.output.LayerNorm.bias'.format(i)].numpy()
+            # ff
+            ff_intermediate_weight = state_dict[
+                'encoder.layer.{}.intermediate.dense.weight'.format(i)].numpy()
+            ff_intermediate_bias = state_dict['encoder.layer.{}.intermediate.dense.bias'.format(i)].numpy()
+            ff_output_weight = state_dict['encoder.layer.{}.output.dense.weight'.format(i)].numpy()
+            ff_output_bias = state_dict['encoder.layer.{}.output.dense.bias'.format(i)].numpy()
+            # bn
+            bn_LayerNorm_weight2 = state_dict['encoder.layer.{}.output.LayerNorm.weight'.format(i)].numpy()
+            bn_LayerNorm_bias2 = state_dict['encoder.layer.{}.output.LayerNorm.bias'.format(i)].numpy()
+            q = np.dot(x, qery_weight.T) + qery_bias  # l * h
+            k = np.dot(x, key_weight.T) + key_bias    # l * h
+            v = np.dot(x, value_weight.T) + value_bias    # l * h
+            q = self.muilti_head(q, self.num_transformer_layers, self.hidden_size)
+            k = self.muilti_head(k, self.num_transformer_layers, self.hidden_size)
+            v = self.muilti_head(v, self.num_transformer_layers, self.hidden_size)
+            ds = np.sqrt(self.hidden_size/self.num_transformer_layers)
+            qk = np.matmul(q, k.swapaxes(1,2)) / ds
+            qk = np.exp(qk)/np.sum(np.exp(qk), axis=-1, keepdims=True)
+            qkv = np.matmul(qk, v).swapaxes(0, 1).reshape(-1, self.hidden_size)  # 12 * l * 64
+            attention = np.dot(qkv, attention_dense_weight.T) + attention_dense_bias
+            # bn 残差机制是上一次的 x 加上上上次的 x
+            bn_x = self.layer_norm(attention + x , bn_LayerNorm_weight1, bn_LayerNorm_bias1)
+            # ff
+            ff = np.dot(bn_x, ff_intermediate_weight.T) + ff_intermediate_bias
+            ff = 0.5 * ff * (1 + np.tanh(math.sqrt(2 / math.pi) * (ff + 0.044715 * np.power(ff, 3))))
+            ff_x = np.dot(ff, ff_output_weight.T) + ff_output_bias
+            # bn 这里残差机制加的是 bn1层的 x，而不是最初的 x
+            x = self.layer_norm(ff_x + bn_x , bn_LayerNorm_weight2, bn_LayerNorm_bias2)
+        return x
+
+    def pooler(self, x):
+        x = np.dot(x, self.pooler_weight.T) +self.pooler_bias
+        x = np.tanh(x)
+        return x
+
+    def forward(self, x):
+        x = self.embedding(x)
+        sequence = self.transformer(x)
+        pool = self.pooler(sequence[0])
+        return sequence, pool
+
+
+    def muilti_head(self, x, num_transformer_layers, hidden_size):
+        l = x.shape[0]
+        x = x.reshape(l,num_transformer_layers,hidden_size//num_transformer_layers) # l * 12 * 64
+        x = x.swapaxes(0, 1)
+        # np.swapaxes
+        return x
+if __name__ == '__main__':
+    num_attention_heads = 12
+    hidden_size = 768
+    a = MyBert(state_dict, 12, num_attention_heads, hidden_size)
+    x = np.array([2450, 15486, 102, 2110])
+    sequence_output, pooler_output = a.forward(x)
+    # c = a.transformer(b)
+    parameter_num = 0
+    for key in state_dict:
+        param = state_dict[key].numpy()
+        param_reshape = param.reshape(-1)
+        print("This is {}, shape is {}, reshape is {}, len is {}".format(key, param.shape, param_reshape.shape, len(param_reshape)))
+        shape = len(param_reshape)
+        parameter_num += shape
+
+    print(parameter_num)    # 102267648

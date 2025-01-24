@@ -1,0 +1,302 @@
+import torch
+import math
+import numpy as np
+from transformers import BertModel
+
+'''
+
+通过手动矩阵运算实现Bert结构
+模型文件下载 https://huggingface.co/models
+
+'''
+
+bert = BertModel.from_pretrained(r"E:\pythonProject\北京-学习资料\week6\bert-base-chinese", return_dict=False) #return_dict=False以返回PyTorch张量而不是字典。
+state_dict = bert.state_dict() #BERT模型的状态字典
+bert.eval() #评估模式
+x = np.array([2450, 15486, 102, 2110])   #假想成4个字的句子
+torch_x = torch.LongTensor([x])          #pytorch形式输入
+# print(torch_x)
+seqence_output, pooler_output = bert(torch_x)
+print(seqence_output.shape, pooler_output.shape) #数组形状
+# print(seqence_output, pooler_output)
+
+print(bert.state_dict().keys())  #查看所有的权值矩阵名称
+
+#softmax归一化
+def softmax(x):
+    return np.exp(x)/np.sum(np.exp(x), axis=-1, keepdims=True)
+
+#gelu激活函数
+def gelu(x):
+    return 0.5 * x * (1 + np.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * np.power(x, 3))))
+
+class DiyBert:
+    #将预训练好的整个权重字典输入进来
+    def __init__(self, state_dict):
+        self.num_attention_heads = 12
+        self.hidden_size = 768
+        self.num_layers = 1        #注意这里的层数要跟预训练config.json文件中的模型层数一致
+        self.load_weights(state_dict)
+
+    def load_weights(self, state_dict):
+        #embedding部分
+        self.word_embeddings = state_dict["embeddings.word_embeddings.weight"].numpy()
+        self.position_embeddings = state_dict["embeddings.position_embeddings.weight"].numpy()
+        self.token_type_embeddings = state_dict["embeddings.token_type_embeddings.weight"].numpy()
+        self.embeddings_layer_norm_weight = state_dict["embeddings.LayerNorm.weight"].numpy()
+        self.embeddings_layer_norm_bias = state_dict["embeddings.LayerNorm.bias"].numpy()
+        self.transformer_weights = []
+        #transformer部分，有多层
+        for i in range(self.num_layers):
+            q_w = state_dict["encoder.layer.%d.attention.self.query.weight" % i].numpy()
+            q_b = state_dict["encoder.layer.%d.attention.self.query.bias" % i].numpy()
+            k_w = state_dict["encoder.layer.%d.attention.self.key.weight" % i].numpy()
+            k_b = state_dict["encoder.layer.%d.attention.self.key.bias" % i].numpy()
+            v_w = state_dict["encoder.layer.%d.attention.self.value.weight" % i].numpy()
+            v_b = state_dict["encoder.layer.%d.attention.self.value.bias" % i].numpy()
+            attention_output_weight = state_dict["encoder.layer.%d.attention.output.dense.weight" % i].numpy()
+            attention_output_bias = state_dict["encoder.layer.%d.attention.output.dense.bias" % i].numpy()
+            attention_layer_norm_w = state_dict["encoder.layer.%d.attention.output.LayerNorm.weight" % i].numpy()
+            attention_layer_norm_b = state_dict["encoder.layer.%d.attention.output.LayerNorm.bias" % i].numpy()
+            intermediate_weight = state_dict["encoder.layer.%d.intermediate.dense.weight" % i].numpy()
+            intermediate_bias = state_dict["encoder.layer.%d.intermediate.dense.bias" % i].numpy()
+            output_weight = state_dict["encoder.layer.%d.output.dense.weight" % i].numpy()
+            output_bias = state_dict["encoder.layer.%d.output.dense.bias" % i].numpy()
+            ff_layer_norm_w = state_dict["encoder.layer.%d.output.LayerNorm.weight" % i].numpy()
+            ff_layer_norm_b = state_dict["encoder.layer.%d.output.LayerNorm.bias" % i].numpy()
+            self.transformer_weights.append([q_w, q_b, k_w, k_b, v_w, v_b, attention_output_weight, attention_output_bias,
+                                             attention_layer_norm_w, attention_layer_norm_b, intermediate_weight, intermediate_bias,
+                                             output_weight, output_bias, ff_layer_norm_w, ff_layer_norm_b])
+        #pooler层
+        self.pooler_dense_weight = state_dict["pooler.dense.weight"].numpy()
+        self.pooler_dense_bias = state_dict["pooler.dense.bias"].numpy()
+
+        self.q_w = state_dict["encoder.layer.%d.attention.self.query.weight" % i].numpy()
+        self.q_b = state_dict["encoder.layer.%d.attention.self.query.bias" % i].numpy()
+        self.k_w = state_dict["encoder.layer.%d.attention.self.key.weight" % i].numpy()
+        self.k_b = state_dict["encoder.layer.%d.attention.self.key.bias" % i].numpy()
+        self.v_w = state_dict["encoder.layer.%d.attention.self.value.weight" % i].numpy()
+        self.v_b = state_dict["encoder.layer.%d.attention.self.value.bias" % i].numpy()
+        self.attention_output_weight = state_dict["encoder.layer.%d.attention.output.dense.weight" % i].numpy()
+        self.attention_output_bias = state_dict["encoder.layer.%d.attention.output.dense.bias" % i].numpy()
+        self.attention_layer_norm_w = state_dict["encoder.layer.%d.attention.output.LayerNorm.weight" % i].numpy()
+        self.attention_layer_norm_b = state_dict["encoder.layer.%d.attention.output.LayerNorm.bias" % i].numpy()
+        self.intermediate_weight = state_dict["encoder.layer.%d.intermediate.dense.weight" % i].numpy()
+        self.intermediate_bias = state_dict["encoder.layer.%d.intermediate.dense.bias" % i].numpy()
+        self.output_weight = state_dict["encoder.layer.%d.output.dense.weight" % i].numpy()
+        self.output_bias = state_dict["encoder.layer.%d.output.dense.bias" % i].numpy()
+        self.ff_layer_norm_w = state_dict["encoder.layer.%d.output.LayerNorm.weight" % i].numpy()
+        self.ff_layer_norm_b = state_dict["encoder.layer.%d.output.LayerNorm.bias" % i].numpy()
+
+    #bert embedding，使用3层叠加，在经过一个Layer norm层
+    def embedding_forward(self, x):
+        # x.shape = [max_len]
+        we = self.get_embedding(self.word_embeddings, x)  # shpae: [max_len, hidden_size]
+        # position embeding的输入 [0, 1, 2, 3]
+        pe = self.get_embedding(self.position_embeddings, np.array(list(range(len(x)))))  # shpae: [max_len, hidden_size]
+        # token type embedding,单输入的情况下为[0, 0, 0, 0]
+        te = self.get_embedding(self.token_type_embeddings, np.array([0] * len(x)))  # shpae: [max_len, hidden_size]
+        embedding = we + pe + te
+        # 加和后有一个归一化层
+        embedding = self.layer_norm(embedding, self.embeddings_layer_norm_weight, self.embeddings_layer_norm_bias)  # shpae: [max_len, hidden_size]
+        return embedding
+
+    #embedding层实际上相当于按index索引，或理解为onehot输入乘以embedding矩阵
+    def get_embedding(self, embedding_matrix, x):
+        return np.array([embedding_matrix[index] for index in x])
+
+    #执行全部的transformer层计算
+    def all_transformer_layer_forward(self, x):
+        for i in range(self.num_layers):
+            x = self.single_transformer_layer_forward(x, i)
+        return x
+
+    #执行单层transformer层计算
+    def single_transformer_layer_forward(self, x, layer_index):
+        weights = self.transformer_weights[layer_index]
+        #取出该层的参数，在实际中，这些参数都是随机初始化，之后进行预训练
+        q_w, q_b, \
+        k_w, k_b, \
+        v_w, v_b, \
+        attention_output_weight, attention_output_bias, \
+        attention_layer_norm_w, attention_layer_norm_b, \
+        intermediate_weight, intermediate_bias, \
+        output_weight, output_bias, \
+        ff_layer_norm_w, ff_layer_norm_b = weights
+        #self attention层
+        attention_output = self.self_attention(x,
+                                q_w, q_b,
+                                k_w, k_b,
+                                v_w, v_b,
+                                attention_output_weight, attention_output_bias,
+                                self.num_attention_heads,
+                                self.hidden_size)
+        #bn层，并使用了残差机制
+        x = self.layer_norm(x + attention_output, attention_layer_norm_w, attention_layer_norm_b)
+        #feed forward层
+        feed_forward_x = self.feed_forward(x,
+                              intermediate_weight, intermediate_bias,
+                              output_weight, output_bias)
+        #bn层，并使用了残差机制
+        x = self.layer_norm(x + feed_forward_x, ff_layer_norm_w, ff_layer_norm_b)
+        return x
+
+    # self attention的计算
+    def self_attention(self,
+                       x,
+                       q_w,
+                       q_b,
+                       k_w,
+                       k_b,
+                       v_w,
+                       v_b,
+                       attention_output_weight,
+                       attention_output_bias,
+                       num_attention_heads,
+                       hidden_size):
+        # x.shape = max_len * hidden_size
+        # q_w, k_w, v_w  shape = hidden_size * hidden_size
+        # q_b, k_b, v_b  shape = hidden_size
+        q = np.dot(x, q_w.T) + q_b  # shape: [max_len, hidden_size]      W * X + B lINER
+        k = np.dot(x, k_w.T) + k_b  # shpae: [max_len, hidden_size]
+        v = np.dot(x, v_w.T) + v_b  # shpae: [max_len, hidden_size]
+        attention_head_size = int(hidden_size / num_attention_heads)
+        # q.shape = num_attention_heads, max_len, attention_head_size
+        q = self.transpose_for_scores(q, attention_head_size, num_attention_heads)
+        # k.shape = num_attention_heads, max_len, attention_head_size
+        k = self.transpose_for_scores(k, attention_head_size, num_attention_heads)
+        # v.shape = num_attention_heads, max_len, attention_head_size
+        v = self.transpose_for_scores(v, attention_head_size, num_attention_heads)
+        # qk.shape = num_attention_heads, max_len, max_len
+        qk = np.matmul(q, k.swapaxes(1, 2))
+        qk /= np.sqrt(attention_head_size)
+        qk = softmax(qk)
+        # qkv.shape = num_attention_heads, max_len, attention_head_size
+        qkv = np.matmul(qk, v)
+        # qkv.shape = max_len, hidden_size
+        qkv = qkv.swapaxes(0, 1).reshape(-1, hidden_size)
+        # attention.shape = max_len, hidden_size
+        attention = np.dot(qkv, attention_output_weight.T) + attention_output_bias
+        return attention
+
+    #多头机制
+    def transpose_for_scores(self, x, attention_head_size, num_attention_heads):
+        # hidden_size = 768  num_attent_heads = 12 attention_head_size = 64
+        max_len, hidden_size = x.shape
+        x = x.reshape(max_len, num_attention_heads, attention_head_size)
+        x = x.swapaxes(1, 0)  # output shape = [num_attention_heads, max_len, attention_head_size]
+        return x
+
+    #前馈网络的计算
+    def feed_forward(self,
+                     x,
+                     intermediate_weight,  # intermediate_size, hidden_size
+                     intermediate_bias,  # intermediate_size
+                     output_weight,  # hidden_size, intermediate_size
+                     output_bias,  # hidden_size
+                     ):
+        # output shpae: [max_len, intermediate_size]
+        x = np.dot(x, intermediate_weight.T) + intermediate_bias
+        x = gelu(x)
+        # output shpae: [max_len, hidden_size]
+        x = np.dot(x, output_weight.T) + output_bias
+        return x
+
+    #归一化层
+    def layer_norm(self, x, w, b):
+        x = (x - np.mean(x, axis=1, keepdims=True)) / np.std(x, axis=1, keepdims=True)
+        x = x * w + b
+        return x
+
+    #链接[cls] token的输出层
+    def pooler_output_layer(self, x):
+        x = np.dot(x, self.pooler_dense_weight.T) + self.pooler_dense_bias
+        x = np.tanh(x)
+        return x
+
+    #最终输出
+    def forward(self, x):
+        x = self.embedding_forward(x)
+        sequence_output = self.all_transformer_layer_forward(x)
+        pooler_output = self.pooler_output_layer(sequence_output[0])
+        return sequence_output, pooler_output
+
+    # 计算参数量
+    def calculate_params(self):
+        total_params = 0
+        # embedding层参数量
+        total_params += (self.word_embeddings.size +
+                         self.position_embeddings.size +
+                         self.token_type_embeddings.size +
+                         self.embeddings_layer_norm_weight.size +
+                         self.embeddings_layer_norm_bias.size)
+
+        # transformer层参数量
+        for weights in self.transformer_weights:
+            q_w, q_b, k_w, k_b, v_w, v_b, attention_output_weight, attention_output_bias, attention_layer_norm_w, attention_layer_norm_b, \
+            intermediate_weight, intermediate_bias, output_weight, output_bias, ff_layer_norm_w, ff_layer_norm_b = weights
+            total_params += (q_w.size + q_b.size +
+                             k_w.size + k_b.size +
+                             v_w.size + v_b.size +
+                             attention_output_weight.size + attention_output_bias.size +
+                             attention_layer_norm_w.size + attention_layer_norm_b.size +
+                             intermediate_weight.size + intermediate_bias.size +
+                             output_weight.size + output_bias.size +
+                             ff_layer_norm_w.size + ff_layer_norm_b.size)
+
+            print('transformer层参数量---------------------------------------------------------')
+            print('self attention层参数量---------------------------------------------------------')
+            print("q_w shape:{}, size:{}".format(self.q_w.shape, self.q_w.size))
+            print("q_b shape:{}, size:{}".format(self.q_b.shape, self.q_b.size))
+            print("k_w shape:{}, size:{}".format(self.k_w.shape, self.k_w.size))
+            print("k_b shape:{}, size:{}".format(self.k_b.shape, self.k_b.size))
+            print("v_w shape:{}, size:{}".format(self.v_w.shape, self.v_w.size))
+            print("v_b shape:{}, size:{}".format(self.v_b.shape, self.v_b.size))
+            print("attention_output_weight shape:{}, size:{}".format(self.attention_output_weight.shape, self.attention_output_weight.size))
+            print("attention_output_bias shape:{}, size:{}".format(self.attention_output_bias.shape, self.attention_output_bias.size))
+
+            print('残差机制参数量---------------------------------------------------------')
+            print("attention_layer_norm_w shape:{}, size:{}".format(self.attention_layer_norm_w.shape, self.attention_layer_norm_w.size))
+            print("attention_layer_norm_b shape:{}, size:{}".format(self.attention_layer_norm_b.shape, self.attention_layer_norm_b.size))
+
+            print('feed forward层参数量---------------------------------------------------------')
+            print("intermediate_weight shape:{}, size:{}".format(self.intermediate_weight.shape, self.intermediate_weight.size))
+            print("intermediate_bias shape:{}, size:{}".format(self.intermediate_bias.shape, self.intermediate_bias.size))
+            print("output_weight shape:{}, size:{}".format(self.output_weight.shape, self.output_weight.size))
+            print("output_bias shape:{}, size:{}".format(self.output_bias.shape, self.output_bias.size))
+
+            print('残差机制参数量---------------------------------------------------------')
+            print("ff_layer_norm_w shape:{}, size:{}".format(self.ff_layer_norm_w.shape, self.ff_layer_norm_w.size))
+            print("ff_layer_norm_b shape:{}, size:{}".format(self.ff_layer_norm_b.shape, self.ff_layer_norm_b.size))
+
+        # pooler层参数量
+        total_params += (self.pooler_dense_weight.size + self.pooler_dense_bias.size)
+
+        print('embedding层参数量---------------------------------------------------------')
+        print("word_embeddings shape:{}, size:{}".format(self.word_embeddings.shape,self.word_embeddings.size))
+        print("position_embeddings shape:{}, size:{}".format(self.position_embeddings.shape,self.position_embeddings.size))
+        print("token_type_embeddings shape:{}, size:{}".format(self.token_type_embeddings.shape,self.token_type_embeddings.size))
+        print("embeddings_layer_norm_weight shape:{}, size:{}".format(self.embeddings_layer_norm_weight.shape,self.embeddings_layer_norm_weight.size))
+        print("embeddings_layer_norm_bias shape:{}, size:{}".format(self.embeddings_layer_norm_bias.shape,self.embeddings_layer_norm_bias.size))
+
+        print('pooler层参数量---------------------------------------------------------')
+        print("pooler_dense_weight shape:{}, size:{}".format(self.pooler_dense_weight.shape,self.pooler_dense_weight.size))
+        print("pooler_dense_bias shape:{}, size:{}".format(self.pooler_dense_bias.shape,self.pooler_dense_bias.size))
+
+        print('参数总量---------------------------------------------------------')
+        print("Total parameters in BERT model:", total_params)
+
+bb = DiyBert(state_dict)
+bb.calculate_params()  # 打印总参数量
+
+#自制
+db = DiyBert(state_dict)
+diy_sequence_output, diy_pooler_output = db.forward(x)
+#torch
+torch_sequence_output, torch_pooler_output = bert(torch_x)
+
+print(diy_sequence_output)
+print(torch_sequence_output)
+
+# print(diy_pooler_output)
+# print(torch_pooler_output)

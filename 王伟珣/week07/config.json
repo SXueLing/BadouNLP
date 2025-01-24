@@ -1,0 +1,18 @@
+{
+    "model_type": "bert",
+    "data_path": "TextClassifyData.csv",
+    "train_percent": 0.9,
+    "n_epoches": 20,
+    "batch_size": 128,
+    "hidden_size": 768,
+    "pool_type": "max",
+    "n_classes": 2,
+    "optimizer": "adam",
+    "learning_rate": 1e-4,
+    "max_sentence_len": 128,
+    "vocab_size": 21128,
+    "vocab_path": "bert-base-chinese/vocab.txt",
+    "num_layers": 12,
+    "pretrain_bert_model_path": "bert-base-chinese",
+    "seed": 987
+}
