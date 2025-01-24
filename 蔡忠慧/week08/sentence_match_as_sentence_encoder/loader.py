@@ -86,14 +86,22 @@ class DataGenerator:
     #正样本从随机一个标准问题中随机选取两个
     def random_train_sample(self):
         standard_question_index = list(self.knwb.keys())
-        #取出标准问下的两个问题a/p+另一个标准问下的一个问题n
-        a1, n1 = random.sample(standard_question_index,2)
-        if len(self.knwb[a1]) < 2:
-            return self.random_train_sample()
+        # 随机正样本
+        if random.random() <= self.config["positive_sample_rate"]:
+            p = random.choice(standard_question_index)
+            #如果选取到的标准问下不足3个问题，则无法选取，所以重新随机一次
+            if len(self.knwb[p]) < 3:
+                return self.random_train_sample()
+            else:
+                s1, s2, s3 = random.sample(self.knwb[p], 3)
+                return [s1, s2, s3, torch.LongTensor([1])]
+        #随机负样本
         else:
-            a, p = random.sample(self.knwb[a1], 2)
-            n = random.choice(self.knwb[n1])
-            return [a, p, n]
+            a, p, n = random.sample(standard_question_index, 3)
+            s1 = random.choice(self.knwb[a])
+            s2 = random.choice(self.knwb[p])
+            s3 = random.choice(self.knwb[n])
+            return [s1, s2, s3, torch.LongTensor([-1])]
 
 
 
@@ -121,5 +129,5 @@ def load_data(data_path, config, shuffle=True):
 
 if __name__ == "__main__":
     from config import Config
-    dg = DataGenerator("valid_tag_news.json", Config)
+    dg = DataGenerator("../data/valid.json", Config)
     print(dg[1])

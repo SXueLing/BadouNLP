@@ -76,3 +76,4 @@ if __name__ == "__main__":
         sentence = input("请输入问题：")
         res = pd.predict(sentence)
         print(res)
+
