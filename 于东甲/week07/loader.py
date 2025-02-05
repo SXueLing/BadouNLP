@@ -31,7 +31,7 @@ class DataGenerator:
 
     def load(self):
 
-        with open('../文本分类练习.csv', 'r', encoding='utf-8') as file:
+        with open(self.path, 'r', encoding='utf-8') as file:
             # 创建CSV读取器
             reader = csv.reader(file)
             self.data =[]
@@ -42,18 +42,21 @@ class DataGenerator:
                 if (row[0] == 'label'):
                     continue
                 if self.config["model_type"] == "bert":
-                    input_id = self.tokenizer.encode(row[1], max_length=self.config["max_length"],
+                    input_id = self.tokenizer.encode(row[1], truncation=True,max_length=self.config["max_length"],
                                                      padding='max_length')
                 else:
                     input_id = self.encode_sentence(row[1])
                 data_sum += 1
                 data_right += int(row[0])
                 input_id = torch.LongTensor(input_id)
-                label_index = torch.LongTensor(int(row[0]))
+                label_index = torch.LongTensor([int(row[0])])
+                # print(int(row[0]))
+                # print(label_index)
+                # print(input_id, label_index)
                 self.data.append([input_id, label_index])
-            print("已构建文本分类")
-            print("样本一共有：", data_sum)
-            print("其中正样本有：", data_right)
+            # print("已构建文本分类")
+            # print("样本一共有：", data_sum)
+            # print("其中正样本有：", data_right)
 
         return
 
@@ -93,8 +96,7 @@ def load_data(data_path, config, shuffle=True):
 
 if __name__ == "__main__":
     from config import Config
-    dg = DataGenerator("valid_tag_news.json", Config)
-    print(dg[2])
+    dg = DataGenerator("../文本分类练习1.csv", Config)
+    print(dg[51])
+    print(dg[51][0].shape)
 
-
-#只做出加载数据  理不清楚。。
