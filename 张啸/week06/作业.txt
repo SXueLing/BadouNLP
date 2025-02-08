@@ -1,0 +1,32 @@
+# BRET配置
+hidden_size(H) = 768
+vocab_size(V) = 30522
+max_seq_length(M) = 512
+nums_layer(L) = 12
+multi_heads(A) = 12
+nums_sentence(N) = 2
+
+# Embedding
+token_embbedding = V * H = 30522 * 768 = 23440896
+position_embedding =  M * H = 512 * 768 = 393216
+segment_embedding = N * H = 2 * 768 = 1536
+
+Embedding = token_embbeding + position_embedding + segment_embedding = 23835648
+
+# Multi-Head Attention
+attention = A * (3 * (H * (H / A))) = 12 * 3 * 768 * 768 / 12 = 1769472
+layernorm = N * N = 768 * 768 = 589824
+
+multi_head_attention = attention + layernorm = 2359296
+
+# Feed Forward
+line1 = H * 4 * H = 768 * 4 * 768 = 2359296
+line2 = 4 * H * H = 4 * 768 * 768 = 2359296
+
+feed_forward = line1 + line2 = 4718592
+
+# transformer 
+transformer = L * (multi_head_attention + feed_forward) = 12 * 7077888 = 84934656
+
+# BRET_total
+BRET_toal = transformer + embedding = 108770304

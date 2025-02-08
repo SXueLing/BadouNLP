@@ -1,0 +1,5 @@
+model_type	learning_rate	hidden_size	batch_size	pooling_style	accuracy
+bert	0.0001	128	128	avg	0.989049953
+bert	0.00001	128	128	avg	0.899676713
+lstm	0.0001	128	128	avg	0.903326729
+lstm	0.00001	128	128	avg	0.66774429

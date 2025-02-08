@@ -1,0 +1,186 @@
+#输入一个4个字符的字符串，判断“你"这个字符所在的位置即为类型，不存在则为5
+import json
+import random
+
+import torch
+import torch.nn as nn
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+class TargetModel(nn.Module):
+    def __init__(self,sentence_length,vector_dim,vocab,hidden_size):
+        super(TargetModel,self).__init__()
+        self.embedding=nn.Embedding(len(vocab),vector_dim,padding_idx=0)
+        self.layer=nn.RNN(sentence_length,hidden_size,bias=False,batch_first=True)
+        self.loss=nn.functional.cross_entropy
+
+    def forward(self,x,y=None):
+        x=self.embedding(x)
+        x=x.transpose(1,2)
+        output,y_pred=self.layer(x)
+        y_pred=y_pred.squeeze()
+        if y is not None:
+            return self.loss(y_pred,y)
+        else:
+            return y_pred
+
+#创建语义库
+def build_vocab():
+    chars = "你bcdefghijklmnopqrstuvwxyz"  # 字符集
+    # vocab={"pad":0}
+    vocab={}
+    for index,char in enumerate(chars):
+        vocab[char]=index
+    # vocab["unk"]=len(vocab)
+    return vocab
+
+def build_randomstr():
+    chars = "bcdefghijklmnopqrstuvwxyz"  # 字符集
+    # vocab={"pad":0}
+    vocab = {}
+    for index, char in enumerate(chars):
+        vocab[char] = index
+        # vocab["unk"]=len(vocab)
+    return vocab
+#创建训练样本
+def build_sample(sentence_length,vocab):
+    vocab_i=build_randomstr()
+    x=[random.choice(list(vocab_i.keys())) for _ in range(sentence_length)]
+    #生成8个随机数0-8，如果是8则全部为0,0-7则修改对应下标数据为你
+    changeIndex=random.randint(0, len(x))
+    if changeIndex<len(x):
+        x[changeIndex] = "你"
+    y=np.zeros(sentence_length+1)
+    try:
+        index=x.index("你")
+    except ValueError:
+       index=len(x)
+    y[index] = 1
+    x=[vocab.get(word) for word in x]
+    return x,y
+
+#创建数据集
+def build_dataset(vocab,sentence_length,traindata_length):
+    dataset_x=[]
+    dataset_y=[]
+    for i in range(traindata_length):
+        x, y = build_sample(sentence_length, vocab)
+        dataset_x.append(x)
+        dataset_y.append(y)
+    numpy_x=np.array(dataset_x)
+    numpy_y=np.array(dataset_y)
+    return torch.LongTensor(numpy_x),torch.FloatTensor(numpy_y)
+
+#创建模型
+def build_model(vocab,vector_dim,sentence_length,hidden_size):
+    model=TargetModel(sentence_length,vector_dim,vocab,hidden_size)
+    return model
+
+def evaluate(model,sentence_length,vocab,evaldata_length):
+    model.eval()
+    x,y,x_v=build_dataset(vocab,sentence_length,evaldata_length)
+    correct,wrong=0,0
+    with torch.no_grad():
+        y_pred=model(x)
+        y_pred_v=y_pred.argmax(dim=1)
+        y_true_v=y.argmax(dim=1)
+        for y_pred_v1,y_true in zip(y_pred_v,y_true_v):
+            if y_pred_v1==y_true:
+                correct+=1
+            else:
+                wrong+=1
+    print("预测正确的个数为%d，正确率：%f"%(correct,correct/(correct+wrong)))
+    return correct/(correct+wrong)
+def main():
+    sentence_length=7
+    vector_dim=5
+    hidden_size=8
+    epoch_count=20
+    batch_size=20
+    trainsample_size=5000
+    lr=0.001
+    log=[]
+    vocab=build_vocab()
+    model=build_model(vocab,vector_dim,sentence_length,hidden_size)
+    optim=torch.optim.Adam(model.parameters(),lr=lr)
+    for epoch in range(epoch_count):
+        model.train()
+        watch_loss=[]
+        for batch in range(int(trainsample_size/batch_size)):
+            x,y_true,x_v=build_dataset(vocab,sentence_length,batch_size)
+            loss=model(x,y_true)
+            loss.backward()
+            optim.step()
+            optim.zero_grad()
+            watch_loss.append(loss.item())
+        print("第%d轮训练完成，平均损失值：%f"%(epoch+1,np.mean(watch_loss)))
+        acc=evaluate(model,sentence_length,vocab,evaldata_length=5)
+        log.append([acc,np.mean(watch_loss)])
+    plt.plot(range(len(log)),[l[0] for l in log],label="acc")
+    plt.plot(range(len(log)),[l[1] for l in log],label="loss")
+    plt.legend()
+    plt.show()
+
+    torch.save(model.state_dict(),"model.pth")
+    # 保存词表
+    writer = open("vocab.json", "w", encoding="utf8")
+    writer.write(json.dumps(vocab, ensure_ascii=False, indent=2))
+    writer.close()
+    return
+
+def predict(model_path,vacob_path,input_strings):
+    vocab=json.load(open(vacob_path,"r",encoding="utf-8"))
+    model=build_model(vocab,5,5,5)
+    model.load_state_dict(torch.load(model_path))
+    x=[]
+    for input_str in input_strings:
+        x.append([vocab[char] for char in input_str])
+    model.eval()
+    with torch.no_grad():
+        y_pred=model.forward(torch.LongTensor(x))
+        for i,input_str in enumerate(input_strings):
+            print("输入：%s,预测类别：%d,概率值：%s"%(input_str,y_pred[i].argmax().item(),y_pred[i]))
+
+#创建预测集数据测试
+def build_predictsample(sentence_length,vocab):
+    vocab_i=build_randomstr()
+    x=[random.choice(list(vocab_i.keys())) for _ in range(sentence_length)]
+    #生成8个随机数0-8，如果是8则全部为0,0-7则修改对应下标数据为你
+    changeIndex=random.randint(0, len(x))
+    if changeIndex<len(x):
+        x[changeIndex] = "你"
+    return x
+
+def build_predictdata(vocab,sentence_length,traindata_length):
+    dataset_x=[]
+    for i in range(traindata_length):
+        x= build_predictsample(sentence_length, vocab)
+        dataset_x.append(''.join(x))
+    return dataset_x
+
+def predict_noinput(model_path,vacob_path):
+    vocab=json.load(open(vacob_path,"r",encoding="utf-8"))
+    vector_dim=5
+    sentence_length=7
+    hidden_size=8
+    traindata_length=10
+    model=build_model(vocab,vector_dim,sentence_length,hidden_size)
+    model.load_state_dict(torch.load(model_path))
+    x=[]
+    input_strings=build_predictdata(vocab,sentence_length,traindata_length)
+    for input_str in input_strings:
+        x.append([vocab[char] for char in input_str])
+    model.eval()
+    with torch.no_grad():
+        y_pred=model.forward(torch.LongTensor(x))
+        for i,input_str in enumerate(input_strings):
+            print("输入：%s,预测类别：%d,概率值：%s"%(input_str,y_pred[i].argmax().item(),y_pred[i]))
+
+
+if "__main__" == __name__:
+    main()
+     #test_strings = ["fde你e", "你wzdf", "rqwd你", "k你www"]
+     #predict("model.pth","vocab.json",test_strings)
+    predict_noinput("model.pth", "vocab.json")
+

@@ -1,0 +1,33 @@
+data  = ['embeddings.word_embeddings.weight', 'embeddings.position_embeddings.weight', 'embeddings.token_type_embeddings.weight', 'embeddings.LayerNorm.weight', 'embeddings.LayerNorm.bias', 'encoder.layer.0.attention.self.query.weight', 'encoder.layer.0.attention.self.query.bias', 'encoder.layer.0.attention.self.key.weight', 'encoder.layer.0.attention.self.key.bias', 'encoder.layer.0.attention.self.value.weight', 'encoder.layer.0.attention.self.value.bias', 'encoder.layer.0.attention.output.dense.weight', 'encoder.layer.0.attention.output.dense.bias', 'encoder.layer.0.attention.output.LayerNorm.weight', 'encoder.layer.0.attention.output.LayerNorm.bias', 'encoder.layer.0.intermediate.dense.weight', 'encoder.layer.0.intermediate.dense.bias', 'encoder.layer.0.output.dense.weight', 'encoder.layer.0.output.dense.bias', 'encoder.layer.0.output.LayerNorm.weight', 'encoder.layer.0.output.LayerNorm.bias'， 'pooler.dense.weight', 'pooler.dense.bias']
+
+for item in data:
+    print(item)
+
+
+
+embeddings.word_embeddings.weight = L * 768
+embeddings.position_embeddings.weight = 512 * 768
+embeddings.token_type_embeddings.weight = 2 * 768
+embeddings.LayerNorm.weight = 768
+embeddings.LayerNorm.bias = 768
+encoder.layer.0.attention.self.query.weight = 768 * 768
+encoder.layer.0.attention.self.query.bias = 768
+encoder.layer.0.attention.self.key.weight = 768 * 768
+encoder.layer.0.attention.self.key.bias = 768
+encoder.layer.0.attention.self.value.weight = 768 * 768
+encoder.layer.0.attention.self.value.bias = 768
+encoder.layer.0.attention.output.dense.weight = 768 * 768
+encoder.layer.0.attention.output.dense.bias = 768
+encoder.layer.0.attention.output.LayerNorm.weight = 768
+encoder.layer.0.attention.output.LayerNorm.bias = 768
+encoder.layer.0.intermediate.dense.weight = 768 * 3072
+encoder.layer.0.intermediate.dense.bias = 3072
+encoder.layer.0.output.dense.weight = 3072 * 768
+encoder.layer.0.output.dense.bias = 768
+encoder.layer.0.output.LayerNorm.weight = 768
+encoder.layer.0.output.LayerNorm.bias = 768
+pooler.dense.weight = 768 * 768
+pooler.dense.bias = 768
+
+12层bert总参数 = L * 768 + 512 * 768 + 2 * 768 + 768 + 768 + 12 * (768 * 768 + 768 + 768 * 768 + 768 + 768 * 768 + 768 + 768 + 768 + 768 * 3072 + 3072 + 3072 * 768 + 768 + 768 + 768) + 768 * 768 + 768
+              =  L * 768 + 106,935,392

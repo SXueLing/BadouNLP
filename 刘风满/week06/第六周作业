@@ -1,0 +1,23 @@
+from transformers import BertModel
+
+bert=BertModel.from_pretrained(r"D:/badou/yuxi/codingProject/bert-base-chinese",return_dict=False)
+state_dict=bert.state_dict()
+embedding_parameters_count=0
+transformers_parameters_count=0
+pooler_parameter_count=0
+for key,value in state_dict.items():
+    if key.startswith("embeddings"):
+        embedding_parameters_count+=value.numel()
+    elif key.startswith("encoder.layer.0"):
+        transformers_parameters_count+=value.numel()
+    elif key.startswith("pooler"):
+        pooler_parameter_count+=value.numel()
+    else:
+        print("都不是")
+
+print("embedding层参数总计：%d"%embedding_parameters_count)
+print("transformer层参数总计：%d"%transformers_parameters_count)
+print("pooler层参数总计：%d"%pooler_parameter_count)
+print("一层transformer的bert参数总计参数量：%d"%(embedding_parameters_count+transformers_parameters_count+pooler_parameter_count))
+transformer_layer_count=int(input("请输入transformer层数:"))
+print("%d层bert总参数量为：%d"%(transformer_layer_count,embedding_parameters_count+transformers_parameters_count*transformer_layer_count+pooler_parameter_count))

@@ -1,0 +1,9 @@
+model      	learning_rate	  hidden_size	  batch_size	epoch  	max_length	 num_layers 	pooling_style 	 acc	       time(秒，预测100条耗时)
+lstm	      0.0001	        128	          128       	20     	120         	2	           max	           0.8807	      0.036
+lstm	      0.0001	        128	          64        	10     	120         	2	           max             0.8903     	0.071
+lstm	      0.001	          128	          128        	10    	120         	2            max	           0.8799	      0.067
+lstm	      0.0001          128	          128        	10    	120         	2            avg	           0.8828	      0.067
+gated_cnn	  0.0001	        128         	128	        10    	120	          2	           max	           0.8911     	0.018
+gru	        0.0001	        128         	128       	15	    120	          2            max	           0.8849     	0.051
+rcnn	      0.0001	        128	          128       	15	    120	          2	           max             0.8894	      0.028
+bert	      0.0001	        128          	128	        10	    120         	2	           max           	 0.8986     	0.896

@@ -1,0 +1,21 @@
+Config = {
+    "model_path": "./model_NER.bin",
+    "train_data_path": "ner_data/train",
+    "eval_data_path": "ner_data/test",
+    "schema_data_path": "./ner_data/schema.json",
+    "vocab_path": "chars.txt",
+    "model_type": "bert",
+    "max_length": 100,
+    "hidden_size": 256,
+    "kernel_size": 3,
+    "num_layers": 2,
+    "epochs": 20,
+    "batch_size": 16,
+    "pooling_style": "avg",
+    "optimizer": "adam",
+    "learning_rate": 1e-5,
+    "pretrain_model_path": "../bert-base-chinese/bert-base-chinese",
+    "seed": 987,
+    "use_crf": True,
+    "class_num": 9
+}

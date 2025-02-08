@@ -1,0 +1,22 @@
+
+v_size：				词表大小
+h_e_size(768)：			emebedding转换维度
+L_size：				输入语句长度
+h_s_size（768）：	self_attentition线性层维度
+h_f_size（3072）：  feed-forword的线性层维度
+
+整个流程的参数数量
+
+emebedding层：		Token Embedding + Segment Embedding + Position Embedding---->	v_size * h_e_size + 2 * h_e_size + 512*h_e_size(最大512)
+
+self-attentition层：三层的线形层,其中每一层的W的形状：768*768，B的形状：L*768：-----> 3 * ( h_e_size*h_e_size +L_size*h_e_size )
+
+中间过一层线形层：W的形状：768*768，B的形状：L*768：----->  h__e_size*h_size +L_size*h_e_size 
+
+再经过feed forword:
+第一次的线形层：W的形状：768*3072，B的形状：L*3072：----->  h_e_size*h_f_size +L_size*h_f_size
+第二次的线形层：W的形状：3072*768，B的形状：L*768：------>  h_f_size*h_e_size +L_size*h_s_size
+
+
+全部参数相加：
+	v_size * h_e_size + 2 * h_e_size + 512*h_e_size(最大512) + 3 * ( h_e_size*h_e_size +L_size*h_e_size ) + h__e_size*h_size +L_size*h_e_size  + h_e_size*h_f_size +L_size*h_f_size + h_f_size*h_e_size +L_size*h_s_size
