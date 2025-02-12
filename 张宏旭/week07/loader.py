@@ -7,9 +7,6 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizer
-import csv
-
-
 """
 数据加载
 """
@@ -28,36 +25,25 @@ class DataGenerator:
         self.config["vocab_size"] = len(self.vocab)
         self.load()
 
-
     def load(self):
-
-        with open(self.path, 'r', encoding='utf-8') as file:
-            # 创建CSV读取器
-            reader = csv.reader(file)
-            self.data =[]
-            data_sum = 0
-            data_right = 0
-            # 迭代读取每一行
-            for row in reader:
-                if (row[0] == 'label'):
-                    continue
-                if self.config["model_type"] == "bert":
-                    input_id = self.tokenizer.encode(row[1], truncation=True,max_length=self.config["max_length"],
-                                                     padding='max_length')
+        self.data = []
+        with open(self.path, encoding="utf8") as f:
+            for line in f:
+                if line.startswith("0,"):
+                    label = 0
+                elif line.startswith("1,"):
+                    label = 1
                 else:
-                    input_id = self.encode_sentence(row[1])
-                data_sum += 1
-                data_right += int(row[0])
+                    continue
+                title = line[2:].strip()
+                if self.config["model_type"] == "bert":
+                    input_id = self.tokenizer.encode(title, max_length=self.config["max_length"], pad_to_max_length=True)
+                else:
+                    input_id = self.encode_sentence(title)
                 input_id = torch.LongTensor(input_id)
-                label_index = torch.LongTensor([int(row[0])])
-                # print(int(row[0]))
-                # print(label_index)
-                # print(input_id, label_index)
+                label_index = torch.LongTensor([label])
                 self.data.append([input_id, label_index])
-            # print("已构建文本分类")
-            # print("样本一共有：", data_sum)
-            # print("其中正样本有：", data_right)
-
+        print(self.data)
         return
 
     def encode_sentence(self, text):
@@ -94,9 +80,8 @@ def load_data(data_path, config, shuffle=True):
     dl = DataLoader(dg, batch_size=config["batch_size"], shuffle=shuffle)
     return dl
 
+
 if __name__ == "__main__":
     from config import Config
-    dg = DataGenerator("../文本分类练习1.csv", Config)
-    print(dg[51])
-    print(dg[51][0].shape)
-
+    dg = DataGenerator("valid_data.txt", Config)
+    print(dg[1])
