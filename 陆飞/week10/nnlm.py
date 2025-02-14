@@ -8,7 +8,7 @@ import random
 import os
 import re
 
-from transformers import BertTokenizer, BertModel
+from transformers import BertModel, BertTokenizer
 
 """
 基于pytorch的bert语言模型
@@ -16,24 +16,25 @@ from transformers import BertTokenizer, BertModel
 
 
 class LanguageModel(nn.Module):
-    def __init__(self, vocab):
+    def __init__(self):
         super(LanguageModel, self).__init__()
-        self.layer = BertModel.from_pretrained(r"F:\AI课\第六周 语言模型\bert-base-chinese", return_dict=False)
-        self.classify = nn.Linear(self.layer.config.hidden_size, len(vocab))
+        self.layer = BertModel.from_pretrained(r"../../bert-base-chinese", return_dict=False)
+        self.classify = nn.Linear(self.layer.config.hidden_size, 21128)
         self.dropout = nn.Dropout(0.1)
         self.loss = nn.functional.cross_entropy
 
     # 当输入真实标签，返回loss值；无真实标签，返回预测值
     def forward(self, x, y=None):
-        mask = generate_upper_triangular_mask(x.size(1), x.size(0))
+        mask = torch.tril(torch.ones((x.shape[0], x.shape[1], x.shape[1])))
         if torch.cuda.is_available():
             mask = mask.cuda()
-        x, _ = self.layer(x, attention_mask=mask)  # output shape:(batch_size, sen_len, hidden_size)
-        y_pred = self.classify(x)  # output shape:(batch_size, sen_len, vocab_size)
         if y is not None:
-            y[1] = y[-1] = -100
+            x, _ = self.layer(x, attention_mask=mask)  # output shape:(batch_size, sen_len, hidden_size)
+            y_pred = self.classify(x)
             return self.loss(y_pred.view(-1, y_pred.shape[-1]), y.view(-1))
         else:
+            x, _ = self.layer(x)  # output shape:(batch_size, sen_len, hidden_size)
+            y_pred = self.classify(x)
             return torch.softmax(y_pred, dim=-1)
 
 
@@ -65,15 +66,13 @@ def load_corpus(path):
 
 # 随机生成一个样本
 # 从文本中截取随机窗口，前n个字作为输入，最后一个字作为输出
-def build_sample(vocab, window_size, corpus):
+def build_sample(tokenizer, window_size, corpus):
     start = random.randint(0, len(corpus) - 1 - window_size)
     end = start + window_size
     window = corpus[start:end]
     target = corpus[start + 1:end + 1]  # 输入输出错开一位
-    # print(window, target)
-    tokenizer = BertTokenizer.from_pretrained(r"F:\AI课\第六周 语言模型\bert-base-chinese")
-    x = tokenizer.encode(window)
-    y = tokenizer.encode(target)
+    x = tokenizer.encode(window, add_special_tokens=False)
+    y = tokenizer.encode(target, add_special_tokens=False)
     return x, y
 
 
@@ -82,12 +81,12 @@ def build_sample(vocab, window_size, corpus):
 # vocab 词表
 # window_size 样本长度
 # corpus 语料字符串
-def build_dataset(sample_length, vocab, window_size, corpus):
+def build_dataset(tokenizer, sample_length, window_size, corpus):
     dataset_x = []
     dataset_y = []
     for i in range(sample_length):
-        x, y = build_sample(vocab, window_size, corpus)
-        if (len(x) != window_size + 2 or len(y) != window_size + 2):
+        x, y = build_sample(tokenizer, window_size, corpus)
+        if (len(x) != window_size or len(y) != window_size):
             continue
         dataset_x.append(x)
         dataset_y.append(y)
@@ -95,28 +94,26 @@ def build_dataset(sample_length, vocab, window_size, corpus):
 
 
 # 建立模型
-def build_model(vocab):
-    model = LanguageModel(vocab)
+def build_model():
+    model = LanguageModel()
     return model
 
 
 # 文本生成测试代码
-def generate_sentence(openings, model, vocab, window_size):
-    reverse_vocab = dict((y, x) for x, y in vocab.items())
+def generate_sentence(tokenizer, openings, model, window_size):
     model.eval()
     with torch.no_grad():
         pred_char = ""
         # 生成了换行符，或生成文本超过30字则终止迭代
         while pred_char != "\n" and len(openings) <= 30:
             openings += pred_char
-            tokenizer = BertTokenizer.from_pretrained(r"F:\AI课\第六周 语言模型\bert-base-chinese")
-            x = tokenizer.encode(openings[-window_size:])
+            x = tokenizer.encode(openings[-window_size:], add_special_tokens=False)
             x = torch.LongTensor([x])
             if torch.cuda.is_available():
                 x = x.cuda()
-            y = model(x)[0][-2]
+            y = model(x)[0][-1]
             index = sampling_strategy(y)
-            pred_char = reverse_vocab[index]
+            pred_char = ''.join(tokenizer.decode(index))
     return openings
 
 
@@ -156,20 +153,20 @@ def calc_perplexity(sentence, model, vocab, window_size):
 def train(corpus_path, save_weight=True):
     epoch_num = 20  # 训练轮数
     batch_size = 64  # 每次训练样本个数
-    train_sample = 5000  # 每轮训练总共训练的样本总数
+    train_sample = 10000  # 每轮训练总共训练的样本总数
     window_size = 10  # 样本文本长度
-    vocab = build_vocab("vocab.txt")  # 建立字表
     corpus = load_corpus(corpus_path)  # 加载语料
-    model = build_model(vocab)  # 建立模型
+    model = build_model()  # 建立模型
     if torch.cuda.is_available():
         model = model.cuda()
-    optim = torch.optim.Adam(model.parameters(), lr=0.01)  # 建立优化器
+    optim = torch.optim.Adam(model.parameters(), lr=0.001)  # 建立优化器
     print("文本词表模型加载完毕，开始训练")
+    tokenizer = BertTokenizer.from_pretrained(r"../../bert-base-chinese")
     for epoch in range(epoch_num):
         model.train()
         watch_loss = []
         for batch in range(int(train_sample / batch_size)):
-            x, y = build_dataset(batch_size, vocab, window_size, corpus)  # 构建一组训练样本
+            x, y = build_dataset(tokenizer, batch_size, window_size, corpus)  # 构建一组训练样本
             if torch.cuda.is_available():
                 x, y = x.cuda(), y.cuda()
             optim.zero_grad()  # 梯度归零
@@ -178,8 +175,8 @@ def train(corpus_path, save_weight=True):
             optim.step()  # 更新权重
             watch_loss.append(loss.item())
         print("=========\n第%d轮平均loss:%f" % (epoch + 1, np.mean(watch_loss)))
-        print(generate_sentence("让他在半年之前，就不能做出", model, vocab, window_size))
-        print(generate_sentence("李慕站在山路上，深深的呼吸", model, vocab, window_size))
+        print(generate_sentence(tokenizer, "让他在半年之前，就不能做出", model, window_size))
+        print(generate_sentence(tokenizer, "李慕站在山路上，深深的呼吸", model, window_size))
     if not save_weight:
         return
     else:
@@ -190,5 +187,4 @@ def train(corpus_path, save_weight=True):
 
 
 if __name__ == "__main__":
-    # build_vocab_from_corpus("corpus/all.txt")
     train("corpus.txt", False)
