@@ -44,3 +44,4 @@ tzdata==2024.2
 urllib3==2.2.3
 wheel==0.44.0
 matplotlib==3.9.2
+pytorch-crf==0.7.2
