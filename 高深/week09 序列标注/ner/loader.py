@@ -30,7 +30,7 @@ class DataGenerator:
             segments = f.read().split("\n\n")
             for segment in segments:
                 sentenece = []
-                labels = []
+                labels = [8] # since BERT add CLS token at the beginning of the sentence, label should be padded to ensure correct mapping
                 for line in segment.split("\n"):
                     if line.strip() == "":
                         continue

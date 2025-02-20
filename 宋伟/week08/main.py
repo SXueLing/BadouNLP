@@ -16,8 +16,6 @@ optimizer = Adam(model.parameters(), lr=CONFIG['learning_rate'])
 
 # 训练循环
 for epoch in range(CONFIG['num_epochs']):
-    print(1)
-    quit()
     model.train()
     total_loss = 0
     for anchor, positive, negative in data_loader:
