@@ -19,7 +19,7 @@ class MyDataSet(Dataset):
         super(MyDataSet, self).__init__()
         self.data_path = config["data_path"]
         self.config = config
-        self.index_to_label = {0: "积极评论", 1: "消极评论"}
+        self.index_to_label = {1: "积极评论", 0: "消极评论"}
         self.label_to_index = dict(
             ((label, index) for index, label in self.index_to_label.items()))
         self.config["class_num"] = len(self.index_to_label)

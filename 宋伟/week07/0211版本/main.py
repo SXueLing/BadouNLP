@@ -47,18 +47,19 @@ def main(config):
     # 加载优化器
     optimizer = choose_optimizer(config,model)
     # 加载效果测试类
-    # evaluator = Evaluator(config,model,logger)
+    evaluator = Evaluator(config,model,logger)
     # 训练
     for epoch in range(config["epoch"]):
         epoch += 1
         model.train()
         logger.info("epoch %d begin" %epoch)
-        train_loss = []
+        train_loss = []  # 记录每个batch的train_loss
         for index,batch_data in enumerate(train_data):
+            # 这里是拿一个batch 数据出来进行分析
             if cuda_flag:
                 batch_data = [d.cuda() for d in batch_data]
             optimizer.zero_grad()
-            token_IDs,labels = batch_data
+            token_IDs,labels = batch_data # token_IDs:[batch,sequence],[batch,1]
             loss = model(token_IDs,labels)
             loss.backward()
             optimizer.step()
@@ -67,6 +68,13 @@ def main(config):
             if index % int(len(train_data)/2)==0:
                 logger.info("batch loss %f" %loss)
         logger.info("epoch average loss: %f" %np.mean(train_loss))
+        acc = evaluator.eval(epoch)
+
+    # 模型权重进行保存
+    # 1. 定义目录及文件名
+    model_path = os.path.join(Config["model_path"],f"epoch_{Config.get('model_type')}_{Config.get('epoch')}")
+    # 2. 进行模型保存
+    torch.save(model.state_dict(),model_path)
 
 if __name__ == '__main__':
     main(Config)

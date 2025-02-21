@@ -65,6 +65,8 @@ class TorchModel(nn.Module):
         self.loss = nn.functional.cross_entropy
 
     def forward(self,x,target=None):
+        # x :[batch,sequence] # 映射到分类任务中
+        # target:[batch,1] # 种类编号
         if self.use_bert:
             x = self.encoder(x)
         else:
@@ -80,7 +82,7 @@ class TorchModel(nn.Module):
 
         x = self.pooling_layer(x.transpose(-1,-2)).squeeze(-1) 
         # x:batch,embedding
-        predict = self.classify(x)  # batch,class_num
+        predict = self.classify(x)  # batch,class_num，预测的是一个概率分布
 
         if target is not None:
             return self.loss(predict,target.squeeze(-1))

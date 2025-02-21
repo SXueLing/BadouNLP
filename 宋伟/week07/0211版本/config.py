@@ -16,7 +16,7 @@ Config = {
     "hidden_size":256,
     "kernel_size":3,
     "num_layers":2,
-    "epoch":15,
+    "epoch":10,
     "batch_size":128,
     "pooling_style":"max",
     "optimizer":"adam",
