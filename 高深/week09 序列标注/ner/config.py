@@ -12,7 +12,7 @@ Config = {
     "vocab_path":"chars.txt",
     "max_length": 100,
     "hidden_size": 256,
-    "num_layers": 2,
+    "num_layers": 12,
     "epoch": 20,
     "batch_size": 16,
     "optimizer": "adam",

@@ -92,6 +92,7 @@ class Evaluator:
     }
     '''
     def decode(self, sentence, labels):
+        sentence = "$" + sentence
         labels = "".join([str(x) for x in labels[:len(sentence)]])
         results = defaultdict(list)
         for location in re.finditer("(04+)", labels):
