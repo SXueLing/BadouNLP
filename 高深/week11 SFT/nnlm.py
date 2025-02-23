@@ -30,14 +30,13 @@ class LanguageModel(nn.Module):
 
         self.classify = nn.Linear(hidden_size, len(vocab))
         self.dropout = nn.Dropout(0.1)
-        self.loss = nn.functional.cross_entropy
+        self.loss = nn.CrossEntropyLoss(ignore_index=-1) # 不计算所有是-1的label的loss
 
     #当输入真实标签，返回loss值；无真实标签，返回预测值
-    def forward(self, x, y=None):
+    def forward(self, x, y=None, mask=None):
 
         if y is not None:
             # mask = torch.tril(torch.ones(x.shape[0], x.shape[1], x.shape[1])) # batch, seq_len, seq_len
-            mask = torch.tril(torch.ones(x.shape[1], x.shape[1])) # seq_len, seq_len
             if torch.cuda.is_available():
                 mask = mask.cuda()
             x, _ = self.layer(x, attention_mask = mask)
@@ -78,22 +77,37 @@ def load_sample_json(path):
 
 #随机生成一个样本
 #从文本中截取随机窗口，前n个字作为输入，最后一个字作为输出
-def build_sample(vocab, window_size, corpus):
+def build_sample(vocab,  max_len, corpus):
+    idx = random.randint(0, len(corpus) - 1)
+    title, content = corpus[idx]
+    title_idx = [vocab.get(word, vocab["<UNK>"]) for word in title]
+    content_idx = [vocab.get(word, vocab["<UNK>"]) for word in content]   #将字转换成序号
 
-    if isinstance(corpus, str):
-        start = random.randint(0, len(corpus) - 1 - window_size)
-        end = start + window_size
-        window = corpus[start:end]
-        target = corpus[start + 1:end + 1]  #输入输出错开一位
-        # print(window, target)
-        x = [vocab.get(word, vocab["<UNK>"]) for word in window]   #将字转换成序号
-        y = [vocab.get(word, vocab["<UNK>"]) for word in target]
-    else: # corpus is list for QA SFT
-        idx = random.randint(0, len(corpus) - 1)
-        title, content = corpus[idx]
-        x = [vocab.get(word, vocab["<UNK>"]) for word in content]   #将字转换成序号
-        y = [vocab.get(word, vocab["<UNK>"]) for word in title]
-    return x + [vocab["<SEP>"]] + y[:-1], y
+    x = title_idx + [vocab["<SEP>"]] + content_idx                 #  a  b  c <sep> d e f
+    y = [-1] * len(title_idx) + content_idx + [vocab["<SEP>"]]     # -1 -1 -1   d   e f <sep> 
+
+    # padding
+    if len(x) > max_len:
+        x = x[:max_len]
+        y = y[:max_len]
+    else: 
+        x = x + (max_len - len(x)) * [vocab["<pad>"]]
+        y = y + (max_len - len(y)) * [vocab["<pad>"]]
+
+    # mask
+    title_len = len(title_idx)
+    content_len = len(content_idx)
+    ul = torch.ones(title_len, title_len)
+    br = torch.tril(torch.ones(content_len, content_len))
+    ur = torch.zeros(title_len, content_len)
+    bl = torch.ones(content_len, title_len)
+    mask = torch.cat([torch.cat([ul, ur], dim=1), torch.cat([bl, br], dim=1)], dim=0)
+
+    print(x)
+    print(y)
+    print(mask)
+    print("===")
+    return x, y, mask
 
 
 #建立数据集
@@ -104,11 +118,14 @@ def build_sample(vocab, window_size, corpus):
 def build_dataset(sample_length, vocab, window_size, corpus):
     dataset_x = []
     dataset_y = []
+    dataset_mask = []
     for i in range(sample_length):
-        x, y = build_sample(vocab, window_size, corpus)
+        x, y, mask = build_sample(vocab, window_size, corpus)
+        print(len(x), len(y), mask.shape)
         dataset_x.append(x)
         dataset_y.append(y)
-    return torch.LongTensor(dataset_x), torch.LongTensor(dataset_y)
+        dataset_mask.append(mask)
+    return torch.LongTensor(dataset_x), torch.LongTensor(dataset_y), torch.LongTensor(dataset_mask)
 
 #建立模型
 def build_model(vocab, char_dim):
@@ -116,7 +133,7 @@ def build_model(vocab, char_dim):
     return model
 
 #文本生成测试代码
-def generate_sentence(openings, model, vocab, window_size):
+def generate_sentence(openings, model, vocab, max_len):
     reverse_vocab = dict((y, x) for x, y in vocab.items())
     model.eval()
     with torch.no_grad():
@@ -124,7 +141,7 @@ def generate_sentence(openings, model, vocab, window_size):
         #生成了换行符，或生成文本超过30字则终止迭代
         while pred_char != "\n" and len(openings) <= 30:
             openings += pred_char
-            x = [vocab.get(char, vocab["<UNK>"]) for char in openings[-window_size:]]
+            x = [vocab.get(char, vocab["<UNK>"]) for char in openings[-max_len:]]
             x = torch.LongTensor([x])
             if torch.cuda.is_available():
                 x = x.cuda()
@@ -171,7 +188,8 @@ def train(corpus_path, save_weight=True):
     batch_size = 128       #每次训练样本个数
     train_sample = 10000   #每轮训练总共训练的样本总数
     char_dim = 768        #每个字的维度
-    window_size = 10       #样本文本长度
+    # window_size = 10       #样本文本长度
+    max_len = 50000 # max length of the input (question + answer)
     vocab = build_vocab("vocab.txt")       #建立字表
     if corpus_path.endswith("json"):
         corpus = load_sample_json(corpus_path)
@@ -187,17 +205,17 @@ def train(corpus_path, save_weight=True):
         model.train()
         watch_loss = []
         for batch in range(int(train_sample / batch_size)):
-            x, y = build_dataset(batch_size, vocab, window_size, corpus) #构建一组训练样本
+            x, y, mask = build_dataset(batch_size, vocab, max_len, corpus) #构建一组训练样本
             if torch.cuda.is_available():
                 x, y = x.cuda(), y.cuda()
             optim.zero_grad()    #梯度归零
-            loss = model(x, y)   #计算loss
+            loss = model(x, y, mask)   #计算loss
             loss.backward()      #计算梯度
             optim.step()         #更新权重
             watch_loss.append(loss.item())
         print("=========\n第%d轮平均loss:%f" % (epoch + 1, np.mean(watch_loss)))
-        print(generate_sentence("让他在半年之前，就不能做出", model, vocab, window_size))
-        print(generate_sentence("李慕站在山路上，深深的呼吸", model, vocab, window_size))
+        print(generate_sentence("让他在半年之前，就不能做出", model, vocab, max_len))
+        print(generate_sentence("李慕站在山路上，深深的呼吸", model, vocab, max_len))
     if not save_weight:
         return
     else:
