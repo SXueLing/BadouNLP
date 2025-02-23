@@ -7,7 +7,8 @@ import numpy as np
 import math
 import random
 import os
-from transformers import BertModel
+from transformers import BertModel, BertTokenizer
+from torch.utils.data import DataLoader
 
 """
 基于pytorch的LSTM语言模型
@@ -22,7 +23,8 @@ class LanguageModel(nn.Module):
         self.layer = BertModel.from_pretrained("bert-base-chinese", 
                                                num_hidden_layers=1,
                                                return_dict=False,
-                                               attn_implementation="eager") 
+                                               attn_implementation="eager")
+        self.tokenizer = BertTokenizer.from_pretrained("bert-base-chinese")
         # attn_implementation would enable 3D attention mask to be passed in. 
         # Otherwise attention_mask defaults accepts 2D [batch, seq_len] matrix.        
         hidden_size = self.layer.config.hidden_size
@@ -77,36 +79,34 @@ def load_sample_json(path):
 
 #随机生成一个样本
 #从文本中截取随机窗口，前n个字作为输入，最后一个字作为输出
-def build_sample(vocab,  max_len, corpus):
-    idx = random.randint(0, len(corpus) - 1)
-    title, content = corpus[idx]
-    title_idx = [vocab.get(word, vocab["<UNK>"]) for word in title]
-    content_idx = [vocab.get(word, vocab["<UNK>"]) for word in content]   #将字转换成序号
+def build_sample(tokenizer: BertTokenizer, max_len, title, content):
 
-    x = title_idx + [vocab["<SEP>"]] + content_idx                 #  a  b  c <sep> d e f
-    y = [-1] * len(title_idx) + content_idx + [vocab["<SEP>"]]     # -1 -1 -1   d   e f <sep> 
+    title_idx = tokenizer.encode(title, add_special_tokens=False)
+    content_idx = tokenizer.encode(content, add_special_tokens=False)
+
+    x = [tokenizer.cls_token_id] + title_idx + [tokenizer.sep_token_id] + content_idx    # <cls> a  b  c <sep> d e  f
+    y = [-1] * (len(title_idx) + 1) + content_idx + [tokenizer.sep_token_id]                                 #  -1  -1 -1 -1   d   e f <sep> 
 
     # padding
-    if len(x) > max_len:
-        x = x[:max_len]
-        y = y[:max_len]
-    else: 
-        x = x + (max_len - len(x)) * [vocab["<pad>"]]
-        y = y + (max_len - len(y)) * [vocab["<pad>"]]
+    x = x[:max_len] + (max_len - len(x)) * [tokenizer.pad_token_id] 
+    y = x[:max_len] + (max_len - len(y)) * [tokenizer.pad_token_id] 
 
     # mask
-    title_len = len(title_idx)
-    content_len = len(content_idx)
+    title_len = len(title_idx) + 1
+    content_len = len(content_idx) + 1
     ul = torch.ones(title_len, title_len)
     br = torch.tril(torch.ones(content_len, content_len))
     ur = torch.zeros(title_len, content_len)
     bl = torch.ones(content_len, title_len)
     mask = torch.cat([torch.cat([ul, ur], dim=1), torch.cat([bl, br], dim=1)], dim=0)
-
-    print(x)
-    print(y)
-    print(mask)
-    print("===")
+    # clip mask to max_len
+    mask = mask[:max_len, :max_len]
+    # extend mask to max_len
+    mask = torch.cat([
+        torch.cat([mask, torch.zeros(max_len - mask.shape[0], mask.shape[0])], dim=0), 
+        torch.cat([torch.zeros(mask.shape[0], max_len - mask.shape[0]), torch.zeros(max_len - mask.shape[0], max_len - mask.shape[0])], dim=0)
+        ])
+    
     return x, y, mask
 
 
@@ -115,17 +115,14 @@ def build_sample(vocab,  max_len, corpus):
 #vocab 词表
 #window_size 样本长度
 #corpus 语料字符串
-def build_dataset(sample_length, vocab, window_size, corpus):
-    dataset_x = []
-    dataset_y = []
-    dataset_mask = []
-    for i in range(sample_length):
-        x, y, mask = build_sample(vocab, window_size, corpus)
-        print(len(x), len(y), mask.shape)
-        dataset_x.append(x)
-        dataset_y.append(y)
-        dataset_mask.append(mask)
-    return torch.LongTensor(dataset_x), torch.LongTensor(dataset_y), torch.LongTensor(dataset_mask)
+def build_dataset(tokenizer, corpus, max_len, batch_size):
+    dataset = []
+    for title, content in corpus:
+        x, y, mask = build_sample(tokenizer, max_len, title, content)
+        # padding
+        # pad mask
+        dataset.append([torch.LongTensor(x), torch.LongTensor(y), mask])
+    return DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 #建立模型
 def build_model(vocab, char_dim):
@@ -205,7 +202,7 @@ def train(corpus_path, save_weight=True):
         model.train()
         watch_loss = []
         for batch in range(int(train_sample / batch_size)):
-            x, y, mask = build_dataset(batch_size, vocab, max_len, corpus) #构建一组训练样本
+            x, y, mask = build_dataset(model.tokenizer, corpus, max_len, batch_size) #构建一组训练样本
             if torch.cuda.is_available():
                 x, y = x.cuda(), y.cuda()
             optim.zero_grad()    #梯度归零
