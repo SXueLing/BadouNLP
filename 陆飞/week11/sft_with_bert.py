@@ -19,25 +19,25 @@ bert实现sft
 class LanguageModel(nn.Module):
     def __init__(self):
         super(LanguageModel, self).__init__()
-        self.layer = BertModel.from_pretrained(r"..\..\第六周 语言模型\bert-base-chinese", return_dict=False)
+        self.layer = BertModel.from_pretrained(r"/home/lufei/AI/bert-base-chinese", return_dict=False)
         self.classify = nn.Linear(self.layer.config.hidden_size, 21128)
-        self.dropout = nn.Dropout(0.1)
         self.loss = nn.functional.cross_entropy
 
     # 当输入真实标签，返回loss值；无真实标签，返回预测值
     def forward(self, q_len, x, y=None):
         mask = []
         for sen, qlen in zip(x, q_len):
+            # sen = 'sdadsadsadsa'
+            # qlen = 5
             matrix = [[1 for _ in range(len(sen))] for _ in range(len(sen))]
             for i in range(qlen):
                 for j in range(qlen, len(sen)):
                     matrix[i][j] = 0
             for i in range(qlen, len(sen)):
-                k = 1
-                for j in range(qlen + k, len(sen)):
-                    k = k + 1
+                for j in range(i + 1, len(sen)):
                     matrix[i][j] = 0
             mask.append(matrix)
+            # print(matrix)
         # print(mask)
         mask = torch.LongTensor(mask)
 
@@ -46,19 +46,11 @@ class LanguageModel(nn.Module):
         if y is not None:
             x, _ = self.layer(x, attention_mask=mask)  # output shape:(batch_size, sen_len, hidden_size)
             y_pred = self.classify(x)
-            return self.loss(y_pred.view(-1, y_pred.shape[-1]), y.view(-1))
+            return self.loss(y_pred.view(-1, y_pred.shape[-1]), y.view(-1), ignore_index = 0)
         else:
             x, _ = self.layer(x)  # output shape:(batch_size, sen_len, hidden_size)
             y_pred = self.classify(x)
             return torch.softmax(y_pred, dim=-1)
-
-
-def generate_upper_triangular_mask(size, batch_size):
-    mask = (torch.triu(torch.ones(size, size)) == 1).transpose(0, 1)
-    mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
-    mask = mask.unsqueeze(0).expand(batch_size, -1, -1)
-    return mask
-
 
 # 加载语料
 def load_QAs(path):
@@ -75,11 +67,10 @@ def build_sample(tokenizer, window_size, qas):
     index = random.randint(0, len(qas) - 1)
     qa = qas[index]
     window = (qa["title"] + qa["content"])[:window_size]
-    target = "<S>" + window[:len(window) - 2]
-    target = target + "[SEP]"
-    x = tokenizer.encode(window, add_special_tokens=False, max_length=window_size, pad_to_max_length=True)
-    y = tokenizer.encode(target, add_special_tokens=False, max_length=window_size, pad_to_max_length=True)
-    y[:len(qa["title"]) - 1] = [-100] * (len(qa["title"]) - 1)
+    target = window[1 : len(window)]
+    x = tokenizer.encode(window, add_special_tokens=False, max_length=window_size, pad_to_max_length=True, truncation=True)
+    y = tokenizer.encode(target, add_special_tokens=False, max_length=window_size, pad_to_max_length=True, truncation=True)
+    y[:len(qa["title"]) - 1] = [0] * (len(qa["title"]) - 1)
     return x, y, len(qa["title"])
 
 
@@ -162,14 +153,14 @@ def train(corpus_path, save_weight=True):
     epoch_num = 10  # 训练轮数
     batch_size = 32  # 每次训练样本个数
     train_sample = 640  # 每轮训练总共训练的样本总数
-    window_size = 120  # 样本文本长度
+    window_size = 80  # 样本文本长度
     QAs = load_QAs(corpus_path)  # 加载语料
     model = build_model()  # 建立模型
     if torch.cuda.is_available():
         model = model.cuda()
     optim = torch.optim.Adam(model.parameters(), lr=0.001)  # 建立优化器
     print("文本词表模型加载完毕，开始训练")
-    tokenizer = BertTokenizer.from_pretrained(r"..\..\第六周 语言模型\bert-base-chinese")
+    tokenizer = BertTokenizer.from_pretrained(r"/home/lufei/AI/bert-base-chinese")
     for epoch in range(epoch_num):
         model.train()
         watch_loss = []
@@ -183,8 +174,8 @@ def train(corpus_path, save_weight=True):
             optim.step()  # 更新权重
             watch_loss.append(loss.item())
         print("=========\n第%d轮平均loss:%f" % (epoch + 1, np.mean(watch_loss)))
-        print(generate_sentence(tokenizer, "两人受伤一厂锅炉发生爆炸", model, window_size))
-        print(generate_sentence(tokenizer, "中宣部推动学雷锋 进教材开微博", model, window_size))
+        print(generate_sentence(tokenizer, "北京明年拟推工作日半价观看电影", model, window_size))
+        print(generate_sentence(tokenizer, "韩国人用工资买房实现品质生活", model, window_size))
     if not save_weight:
         return
     else:
@@ -195,4 +186,4 @@ def train(corpus_path, save_weight=True):
 
 
 if __name__ == "__main__":
-    train("sample_data.json", False)
+    train("/home/lufei/AI/week11 问答/sample_data.json", False)

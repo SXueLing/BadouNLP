@@ -1,0 +1,15 @@
+	位置编码	transformer结构	多头机制	ff层设计	归一化层选择	激活函数	是否使用bias
+baichuan2-7b	rope	串行	mult-head	gated形式	RMSNorm/pre-norm	silu	无bias
+baichuan2-13b	alibi	串行	mult-head	gated形式	RMSNorm/pre-norm	silu	无bias
+chatglm2	rope	串行	mult-query	gated形式	可选择RMSNorm或者LayerNorm/pre-norm	silu	qkv有bias，其他线性层无bias
+llama2	rope	串行	mult-query	gated形式	RMSNorm/pre-norm	silu	无bias
+moss	rope	平行	mult-head	传统形式	LayerNorm/pre-norm	gelu_new	selfattention无bias, ff有bias
+qwen	rope	串行	mult-head	gated形式	RMSNorm/pre-norm	silu	无bias
+chatglm3	rope	串行	multi_query	gated形式	可选择RMSNorm或者LayerNorm/pre-norm	silu	qkv有bias，其他线性层无bias
+dbrx	rope	串行	group_query	moe形式	LayerNorm/Sandwich-norm	silu	无bias
+deepseek	rope	串行	mult-head	moe形式	RMSNorm/pre-norm	silu	无bias
+gemma	rope	串行	mult-head	gated形式	RMSNorm/pre-norm	gelu	无bias
+grok	rope	串行	group_query	gated形式	RMSNorm/Sandwich-norm	gelu	无bias
+mixtral	rope	串行	group_query	moe形式	RMSNorm/pre-norm	silu	无bias
+baichuan-7b	rope	串行	mult-head	gated形式	RMSNorm/pre-norm	silu	无bias
+baichuan-13b	alibi	串行	mult-head	gated形式	RMSNorm/pre-norm	silu	无bias

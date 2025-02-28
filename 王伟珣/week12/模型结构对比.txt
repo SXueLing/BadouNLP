@@ -1,0 +1,12 @@
+				|位置编码		|Transformer结构		|多头机制		|ff层设计		|归一化选择			|激活函数		|是否使用Bias
+BaiChuan2-7b		|RoPE 		|串行					|传统方式		|gated形式		|RMSNorm/pre norm	|SiLU			|False
+BaiChuan2-13b		|Alibi			|串行					|传统方式		|gated形式		|RMSNorm/pre norm	|SiLU			|False
+ChatGLM2			|RoPE		|串行					|传统方式		|gated形式		|RMSNorm/pre norm	|SiLU			|QKV True，其他 False
+DBRX			|RoPE		|串行					|Multi Query	|gated形式		|LayerNorm			|GeLU New	|False
+DeepSeek			|RoPE		|串行					|MLA			|gated形式		|RMSNorm			|SiLU			|False
+Gemma			|RoPE		|串行					|Multi Query	|gated形式		|RMSNorm			|GeLU		|False
+Grok1			|RoPE		|串行					|传统方式		|传统方式		|RMSNrom			|GeLu		|False
+LLAMA2			|RoPE		|串行					|传统方式		|传统方式		|RMSNorm/pre norm	|SiLU			|False
+Mixtral			|RoPE		|串行					|Group Query	|传统方式		|RMSNorm			|SiLU			|False
+MOSS			|RoPE		|平行					|传统方式		|传统方式		|LayerNorm			|GeLU New	|SA False，FF True
+Qwen-7b			|RoPE		|串行					|传统方式		|gated形式		|RMSnorm/pre norm		|SiLU			|QKV True， 其他 False
