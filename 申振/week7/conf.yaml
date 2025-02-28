@@ -1,0 +1,25 @@
+log_config:
+  version: 1
+  disable_existing_loggers: False
+  formatters:
+    verbose:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(process)d - %(thread)d - %(message)s'
+    simple:
+      format: '%(levelname)s - %(message)s'
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: simple
+      stream: ext://sys.stdout
+    file:
+      class: logging.FileHandler
+      level: DEBUG
+      formatter: verbose
+      filename: app.log
+      mode: w
+  loggers:
+    '':  # root logger
+      handlers: [console, file]
+      level: DEBUG
+      propagate: True
