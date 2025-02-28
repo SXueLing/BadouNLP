@@ -88,7 +88,6 @@ class Evaluator:
       "O": 8
     }
     '''
-    
     def decode(self, sentence, labels):
         sentence = "$" + sentence
         labels = "".join([str(x) for x in labels[:len(sentence)+1]])
@@ -106,4 +105,5 @@ class Evaluator:
             s, e = location.span()
             results["TIME"].append(sentence[s:e])
         return results
+
 
