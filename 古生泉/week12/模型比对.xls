@@ -1,0 +1,3 @@
+chatglm2	RoPE	串行	Grouped-query	传统方式	RMSnorm/pre norm	swiglu	qkv有bias，其他线性层无bias
+DBRX	RoPE	串行	Grouped-query		LayerNorm	无	无bias
+
