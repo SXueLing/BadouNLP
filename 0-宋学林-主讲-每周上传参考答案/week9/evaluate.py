@@ -88,7 +88,7 @@ class Evaluator:
       "O": 8
     }
     '''
-    # 基于label_id和sentence进行联合解码
+    
     def decode(self, sentence, labels):
         sentence = "$" + sentence
         labels = "".join([str(x) for x in labels[:len(sentence)+1]])
