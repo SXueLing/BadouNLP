@@ -13,7 +13,7 @@ Config = {
     "corpus_path":r"./corpus.txt",
     "window_size":10,
     "sample_length":10000,
-    "batch_size":16,
+    "batch_size":128,
     "hidden_size":768,
     "optimizer":"adam",
     "seed":12,

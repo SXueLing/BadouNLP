@@ -16,7 +16,7 @@ def generate_sentence(openings,model:LanguageModel,tokenizer:BertTokenizer):
     openings = tokenizer.encode(openings) # 这里记录了特殊符号
 
     with torch.no_grad():
-        while len(openings) <= 50:
+        while len(openings) <= 100:
             x = torch.LongTensor([openings])
             if torch.cuda.is_available():
                 x.cuda()
@@ -41,6 +41,6 @@ if __name__ == '__main__':
     tokenizer = BertTokenizer.from_pretrained(Config['bert_path'])
     model = LanguageModel(Config)
     model.load_state_dict(torch.load("./output/epoch_bert_sft_20.pth"))
-    openings = "学校学习雷锋精神"
+    openings = "北京明年拟推工作日半价观看电影"
     x = generate_sentence(openings,model,tokenizer)
     print(x)

@@ -53,12 +53,12 @@ def main(config):
             if cuda_flag:
                 batch_data = {key:data.cuda() for key,data in batch_data.items()}
                 pass
-            inputs = batch_data['inputs']
-            labels = batch_data['labels']
+            # inputs = batch_data['inputs']
+            # labels = batch_data['labels']
             
 
             # break
-            loss = model(inputs,labels)
+            loss = model(**batch_data)
             # break
             loss.backward()
             optimizer.step()
@@ -66,7 +66,7 @@ def main(config):
             if idx%int(len(train_data)/2) == 0:
                 logger.info(f"batch loss: {loss}")
         logger.info(f"epoch average loss:{np.mean(train_loss)}")
-    model_path = os.path.join(config['model_path'],f"epoch_bert04_{epoch}.pth")
+    model_path = os.path.join(config['model_path'],f"epoch_bert05_{epoch}.pth")
     torch.save(model.state_dict(),model_path)
     return None
 

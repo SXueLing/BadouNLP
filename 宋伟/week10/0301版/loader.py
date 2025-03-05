@@ -12,7 +12,7 @@ from transformers import BertTokenizer
 import random
 
 
-class MyDataSet(object):
+class MyDataSet(Dataset):
     """docstring for MyDataset"""
 
     def __init__(self, config):
@@ -33,8 +33,8 @@ class MyDataSet(object):
             data = {}
             x, y = build_sample(
                 self.tokenizer, self.config['window_size'], self.corpus)
-            data["inputs"] = x.squeeze(0)
-            data["labels"] = y.squeeze(0)
+            data["inputs"] = torch.LongTensor(x)
+            data["labels"] = torch.LongTensor(y)
             self.data.append(data)
         return
 
@@ -72,7 +72,6 @@ def build_sample(tokenizer, window_size, corpus)->tuple:
     # y = [vocab.get(char,vocab["<UNK>"]) for char in traget_chars]
     x = tokenizer.encode(window_chars,
                      max_length=10,
-                     return_tensors='pt',
                      padding='max_length',
                      truncation=True,
                      add_special_tokens=False)
@@ -80,7 +79,6 @@ def build_sample(tokenizer, window_size, corpus)->tuple:
 
     y = tokenizer.encode(traget_chars,
                      max_length=10,
-                     return_tensors='pt',
                      padding='max_length',
                      truncation=True,
                      add_special_tokens=False)

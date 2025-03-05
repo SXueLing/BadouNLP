@@ -20,16 +20,16 @@ def generate_sentence(openings, model, tokenizer, window_size):
     with torch.no_grad():
         pred_char = ''
         while len(openings) <= 200:
-            print(openings)
+            
             openings += pred_char
             x = tokenizer.encode(openings,
-                                 return_tensors='pt',
+                                 # return_tensors='pt',
                                  # max_length=10,
                                  # padding='max_length',
                                  # truncation=True,
                                  add_special_tokens=False)  # 本身自带一个维度
             # print(x)
-            # x = torch.LongTensor([x])
+            x = torch.LongTensor([x])
             if torch.cuda.is_available():
                 x = x.cuda()
 
@@ -38,7 +38,7 @@ def generate_sentence(openings, model, tokenizer, window_size):
             idx = sampling_strategy(y_distribution)
             pred_char = ''.join(tokenizer.decode([idx]))
             # print(pred_char)
-
+        print(openings)
         return openings
 
 
@@ -65,8 +65,8 @@ if __name__ == '__main__':
 
     model = LanguageModel(Config)
     model.cuda()
-    model.load_state_dict(torch.load("./output/epoch_bert_20.pth"))
-    openings = "李慕站在山路上，深深的呼吸"
+    model.load_state_dict(torch.load("./output/epoch_bert05_20.pth"))
+    openings = "举头望明月，低头思故乡"
     # vocab = load_vocab(Config['vocab_path'])
     tokenizer = BertTokenizer.from_pretrained(Config['bert_path'])
     window_size = Config["window_size"]
