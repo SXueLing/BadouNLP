@@ -1,4 +1,3 @@
-
 # coding:utf8
 
 import torch
@@ -38,6 +37,7 @@ class TorchModel(nn.Module):
         # x = x.squeeze()  # (batch_size, vector_dim, 1) -> (batch_size, vector_dim)
         rnn_out, hidden = self.rnn(x)  # (batch_size, vector_dim) -> (batch_size, 1) 3*5 5*1 -> 3*1
         x = rnn_out[:, -1, :]  # 或者写hidden.squeeze()也是可以的，因为rnn的hidden就是最后一个位置的输出
+        # print(x.shape)
         # 接线性层做分类
         y_pred = self.classify(x)
         if y is not None:
