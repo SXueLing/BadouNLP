@@ -1,0 +1,27 @@
+""""
+配置文件
+"""
+
+
+Config = {
+    "model_path": "model_weight/bert_model.pth",
+    "train_data_path": "profile/train.jsonl",
+    "test_data_path": "profile/test.jsonl",
+    "pretrain_model_path": "D:/NLP/bert-base-chinese",
+    "hidden_size": 128,
+    "num_layers": 3,
+    "model_type": "lstm",
+    "optim_type": "adamw",
+    "learning_rate": 1e-3,
+    "pooling_type": "avg",
+    "kernel_size": 3,
+    "vocab_path": "profile/chars.txt",
+    "epoch": 15,
+    "batch_size": 128,
+    "epoch_train_num": 3000,
+    "epoch_test_num": 100,
+    "bidirectional": True,
+    "num_workers": 4,  # 设置为CPU物理核心数
+    "persistent_workers": True,  # 减少进程创建开销
+    "pin_memory": True
+}
