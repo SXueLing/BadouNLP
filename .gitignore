@@ -1,1 +1,8 @@
-.idea/
+**/**.pth
+**/**.bin
+**.pth
+.idea
+*.w2v
+*.json
+*.csv
+*.pyc

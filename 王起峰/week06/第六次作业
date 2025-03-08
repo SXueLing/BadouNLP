@@ -1,0 +1,32 @@
+def count_bert_params(vocab_size, hidden_size, num_layers, max_position_embeddings, num_heads=12):
+    # embedding层参数
+    # token embedding层参数
+    token_params = vocab_size * hidden_size
+    # segment embedding层参数
+    segment_params = 2 * hidden_size
+    # position embedding层参数
+    position_params = max_position_embeddings * hidden_size
+    embedding_params = token_params + segment_params + position_params
+
+    # Transformer层参数（包括Q, K, V矩阵）
+    attention_params = 3 * hidden_size * hidden_size + 3 * hidden_size  # Q, K, V矩阵及其偏置
+    attention_params_per_head = (hidden_size // num_heads) * (hidden_size // num_heads) * 3  # 每个头的Q, K, V矩阵参数
+    attention_params_total = (attention_params + attention_params_per_head) * num_layers  # 总的Transformer层参数
+
+    # Feedforward层参数
+    feedforward_params = (hidden_size * 4 * hidden_size + 4 * hidden_size) * num_layers
+    feedforward_params += (hidden_size * hidden_size + hidden_size) * num_layers  # 输出层的参数
+
+    # 总参数数量
+    total_params = embedding_params + attention_params_total + feedforward_params
+    return total_params
+
+# BERT配置
+vocab_size = 30522
+hidden_size = 768
+num_layers = 12
+max_position_embeddings = 512
+
+# 计算参数数量
+total_params = count_bert_params(vocab_size, hidden_size, num_layers, max_position_embeddings)
+print(f"Total number of parameters in BERT-Base: {total_params}")

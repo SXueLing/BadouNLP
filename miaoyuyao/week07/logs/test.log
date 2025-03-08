@@ -1,0 +1,653 @@
+2025-01-09 19:26:21,830 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:26:22,401 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:26:22,420 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:26:22,486 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:26:23,335 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.704774
+2025-01-09 19:28:05,129 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.310580
+2025-01-09 19:31:56,964 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.409103
+2025-01-09 19:31:56,964 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:32:37,585 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:32:37,585 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2088，预测错误条目：310
+2025-01-09 19:32:37,585 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.870726
+2025-01-09 19:32:37,585 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:32:37,620 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:32:37,657 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:32:39,391 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:32:39,402 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:32:39,705 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:32:43,025 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.729605
+2025-01-09 19:34:07,474 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.244454
+2025-01-09 19:35:05,154 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.395309
+2025-01-09 19:35:05,154 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:35:14,938 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:35:14,938 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2087，预测错误条目：311
+2025-01-09 19:35:14,938 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.870309
+2025-01-09 19:35:14,938 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:35:14,948 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:35:14,985 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:35:15,392 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:35:15,407 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:35:15,468 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:35:17,030 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.662154
+2025-01-09 19:36:16,392 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.269671
+2025-01-09 19:37:19,399 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.396651
+2025-01-09 19:37:19,400 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.424174
+2025-01-09 19:37:19,400 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:37:30,061 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:37:30,061 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2120，预测错误条目：278
+2025-01-09 19:37:30,061 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.884070
+2025-01-09 19:37:30,061 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:37:30,070 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:37:30,087 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:37:30,458 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:37:30,462 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:37:30,524 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:37:32,149 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.684593
+2025-01-09 19:38:35,994 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.283934
+2025-01-09 19:39:37,805 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.280269
+2025-01-09 19:39:37,805 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.381174
+2025-01-09 19:39:37,805 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:39:48,589 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:39:48,589 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2136，预测错误条目：262
+2025-01-09 19:39:48,589 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.890742
+2025-01-09 19:39:48,589 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:39:48,599 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:39:48,616 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:39:49,070 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:39:49,075 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:39:49,134 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:39:49,928 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.692949
+2025-01-09 19:40:51,428 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.378396
+2025-01-09 19:41:51,819 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.417549
+2025-01-09 19:41:51,819 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:42:01,858 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:42:01,858 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2091，预测错误条目：307
+2025-01-09 19:42:01,858 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.871977
+2025-01-09 19:42:01,858 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:42:01,867 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:42:01,886 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:42:02,265 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:42:02,269 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:42:02,329 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:42:03,151 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.721594
+2025-01-09 19:43:06,686 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.310106
+2025-01-09 19:44:14,504 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.394494
+2025-01-09 19:44:14,504 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:44:24,767 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:44:24,768 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2098，预测错误条目：300
+2025-01-09 19:44:24,768 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.874896
+2025-01-09 19:44:24,768 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:44:24,777 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:44:24,828 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:44:25,259 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:44:25,275 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:44:25,472 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:44:27,038 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.691632
+2025-01-09 19:45:29,479 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.422325
+2025-01-09 19:46:31,890 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.346393
+2025-01-09 19:46:31,890 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.452320
+2025-01-09 19:46:31,890 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:46:42,947 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:46:42,948 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2101，预测错误条目：297
+2025-01-09 19:46:42,948 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.876147
+2025-01-09 19:46:42,948 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:46:42,957 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:46:42,974 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:46:43,346 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:46:43,351 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:46:43,415 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:46:45,090 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.666360
+2025-01-09 19:47:47,965 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.469042
+2025-01-09 19:48:51,116 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.322609
+2025-01-09 19:48:51,116 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.432436
+2025-01-09 19:48:51,117 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:49:02,146 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:49:02,146 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2114，预测错误条目：284
+2025-01-09 19:49:02,146 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.881568
+2025-01-09 19:49:02,146 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:49:02,156 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:49:02,235 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:49:03,918 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:49:03,939 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:49:04,338 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:49:04,797 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.696156
+2025-01-09 19:49:41,326 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.319222
+2025-01-09 19:50:17,746 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.377091
+2025-01-09 19:50:17,747 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:50:23,861 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:50:23,861 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2153，预测错误条目：245
+2025-01-09 19:50:23,862 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.897832
+2025-01-09 19:50:23,862 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:50:23,875 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:50:23,908 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:50:25,668 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:50:25,688 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:50:26,101 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:50:26,516 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.951781
+2025-01-09 19:51:02,518 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.303041
+2025-01-09 19:51:39,184 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.470027
+2025-01-09 19:51:39,184 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:51:45,514 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:51:45,514 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2059，预测错误条目：339
+2025-01-09 19:51:45,514 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.858632
+2025-01-09 19:51:45,515 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:51:45,528 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:51:45,563 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:51:47,247 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:51:47,267 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:51:47,668 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:51:48,521 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.696787
+2025-01-09 19:52:26,709 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.388472
+2025-01-09 19:53:04,443 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.279598
+2025-01-09 19:53:04,443 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.411012
+2025-01-09 19:53:04,444 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:53:10,679 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:53:10,679 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2147，预测错误条目：251
+2025-01-09 19:53:10,679 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.895329
+2025-01-09 19:53:10,679 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:53:10,689 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:53:10,723 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:53:12,403 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:53:12,423 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:53:12,846 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:53:13,697 - test_ai.homework.week7.config.logging_config - INFO - batch loss 2.398809
+2025-01-09 19:53:51,930 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.323165
+2025-01-09 19:54:30,311 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.291664
+2025-01-09 19:54:30,312 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.437882
+2025-01-09 19:54:30,312 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:54:36,365 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:54:36,365 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2120，预测错误条目：278
+2025-01-09 19:54:36,365 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.884070
+2025-01-09 19:54:36,365 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:54:36,375 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:54:36,409 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:54:38,139 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:54:38,157 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:54:38,557 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:54:39,017 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.682971
+2025-01-09 19:55:16,364 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.316981
+2025-01-09 19:55:53,178 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.402400
+2025-01-09 19:55:53,178 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:55:59,361 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:55:59,362 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2148，预测错误条目：250
+2025-01-09 19:55:59,362 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.895746
+2025-01-09 19:55:59,362 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:55:59,372 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:55:59,406 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:56:01,078 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:56:01,099 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:56:01,500 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:56:01,937 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.646374
+2025-01-09 19:56:39,930 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.417929
+2025-01-09 19:57:19,153 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.347095
+2025-01-09 19:57:19,153 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:57:25,600 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:57:25,600 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2172，预测错误条目：226
+2025-01-09 19:57:25,600 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.905755
+2025-01-09 19:57:25,600 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:57:25,610 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:57:25,644 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:57:27,317 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:57:27,336 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:57:27,743 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:57:28,612 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.728156
+2025-01-09 19:58:06,938 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.427012
+2025-01-09 19:58:45,653 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.327656
+2025-01-09 19:58:45,654 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.461869
+2025-01-09 19:58:45,654 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 19:58:51,637 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 19:58:51,637 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2094，预测错误条目：304
+2025-01-09 19:58:51,637 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.873228
+2025-01-09 19:58:51,637 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 19:58:51,647 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 19:58:51,682 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 19:58:53,924 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 19:58:53,946 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 19:58:54,452 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 19:58:55,325 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.700915
+2025-01-09 19:59:33,572 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.322809
+2025-01-09 20:00:11,733 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.238529
+2025-01-09 20:00:11,733 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.375216
+2025-01-09 20:00:11,733 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:00:18,054 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:00:18,055 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2157，预测错误条目：241
+2025-01-09 20:00:18,055 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.899500
+2025-01-09 20:00:18,055 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:00:18,066 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:00:18,082 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:00:18,415 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:00:18,421 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:00:18,494 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:00:18,556 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.697603
+2025-01-09 20:00:22,422 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.442610
+2025-01-09 20:00:26,836 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.443649
+2025-01-09 20:00:26,836 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:00:27,503 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:00:27,503 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2105，预测错误条目：293
+2025-01-09 20:00:27,503 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.877815
+2025-01-09 20:00:27,503 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:00:27,511 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:00:27,525 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:00:27,853 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:00:27,856 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:00:27,917 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:00:27,975 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.688452
+2025-01-09 20:00:32,126 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.473272
+2025-01-09 20:00:36,304 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.401450
+2025-01-09 20:00:36,304 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:00:36,930 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:00:36,930 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2121，预测错误条目：277
+2025-01-09 20:00:36,930 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.884487
+2025-01-09 20:00:36,930 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:00:36,939 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:00:36,953 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:00:37,202 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:00:37,206 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:00:37,268 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:00:37,352 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.684228
+2025-01-09 20:00:40,476 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.489434
+2025-01-09 20:00:43,622 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.374121
+2025-01-09 20:00:43,622 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.494881
+2025-01-09 20:00:43,622 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:00:44,195 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:00:44,195 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2075，预测错误条目：323
+2025-01-09 20:00:44,195 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.865304
+2025-01-09 20:00:44,195 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:00:44,203 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:00:44,218 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:00:44,519 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:00:44,523 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:00:44,583 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:00:44,667 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.697961
+2025-01-09 20:00:47,747 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.499776
+2025-01-09 20:00:51,411 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.277201
+2025-01-09 20:00:51,411 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.454857
+2025-01-09 20:00:51,412 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:00:51,919 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:00:51,919 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2078，预测错误条目：320
+2025-01-09 20:00:51,919 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.866555
+2025-01-09 20:00:51,919 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:00:51,926 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:00:51,939 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:00:52,264 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:00:52,268 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:00:52,333 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:00:52,389 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.693737
+2025-01-09 20:00:56,629 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.575549
+2025-01-09 20:01:00,857 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.608620
+2025-01-09 20:01:00,857 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:01:01,440 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:01:01,440 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1661，预测错误条目：737
+2025-01-09 20:01:01,440 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.692661
+2025-01-09 20:01:01,440 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:01:01,448 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:01:01,463 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:01:01,715 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:01:01,719 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:01:01,780 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:01:01,833 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.697698
+2025-01-09 20:01:05,859 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.636595
+2025-01-09 20:01:09,900 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.602718
+2025-01-09 20:01:09,900 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:01:10,530 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:01:10,530 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1903，预测错误条目：495
+2025-01-09 20:01:10,530 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.793578
+2025-01-09 20:01:10,530 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:01:10,539 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:01:10,554 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:01:10,882 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:01:10,888 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:01:10,971 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:01:11,058 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.703979
+2025-01-09 20:01:14,109 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.665619
+2025-01-09 20:01:17,212 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.655694
+2025-01-09 20:01:17,212 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.661446
+2025-01-09 20:01:17,212 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:01:17,724 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:01:17,724 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1594，预测错误条目：804
+2025-01-09 20:01:17,724 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.664721
+2025-01-09 20:01:17,724 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:01:17,733 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:01:17,748 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:01:18,156 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:01:18,160 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:01:18,235 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:01:18,333 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.688105
+2025-01-09 20:01:21,386 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.633203
+2025-01-09 20:01:24,510 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.585917
+2025-01-09 20:01:24,510 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.642749
+2025-01-09 20:01:24,510 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:01:25,085 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:01:25,085 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1594，预测错误条目：804
+2025-01-09 20:01:25,085 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.664721
+2025-01-09 20:01:25,085 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:01:25,094 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736421978.8986764.csv
+2025-01-09 20:11:45,092 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:11:45,587 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:11:45,607 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:11:45,677 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:11:46,411 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.704774
+2025-01-09 20:13:13,451 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.310580
+2025-01-09 20:14:20,181 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.409103
+2025-01-09 20:14:20,181 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:14:30,671 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:14:30,671 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2088，预测错误条目：310
+2025-01-09 20:14:30,671 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.870726
+2025-01-09 20:14:30,671 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:14:30,690 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:14:30,703 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:14:31,167 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:14:31,172 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:14:31,234 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:14:32,057 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.729605
+2025-01-09 20:15:38,551 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.244454
+2025-01-09 20:16:44,374 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.395309
+2025-01-09 20:16:44,374 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:16:55,209 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:16:55,209 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2087，预测错误条目：311
+2025-01-09 20:16:55,209 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.870309
+2025-01-09 20:16:55,209 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:16:55,220 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:16:55,237 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:16:55,638 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:16:55,644 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:16:55,717 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:16:57,403 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.662154
+2025-01-09 20:18:04,435 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.269671
+2025-01-09 20:19:11,380 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.396651
+2025-01-09 20:19:11,380 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.424174
+2025-01-09 20:19:11,380 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:19:22,615 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:19:22,615 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2120，预测错误条目：278
+2025-01-09 20:19:22,615 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.884070
+2025-01-09 20:19:22,615 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:19:22,625 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:19:22,640 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:19:23,025 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:19:23,026 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:19:23,090 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:19:24,746 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.684593
+2025-01-09 20:20:29,146 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.283934
+2025-01-09 20:21:35,931 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.280269
+2025-01-09 20:21:35,931 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.381174
+2025-01-09 20:21:35,931 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:21:47,635 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:21:47,635 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2136，预测错误条目：262
+2025-01-09 20:21:47,635 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.890742
+2025-01-09 20:21:47,635 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:21:47,645 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:21:47,661 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:21:48,139 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:21:48,144 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:21:48,210 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:21:49,055 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.692949
+2025-01-09 20:22:54,106 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.378396
+2025-01-09 20:23:59,382 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.417549
+2025-01-09 20:23:59,382 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:24:10,663 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:24:10,663 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2091，预测错误条目：307
+2025-01-09 20:24:10,663 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.871977
+2025-01-09 20:24:10,663 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:24:10,679 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:24:10,698 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:24:11,100 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:24:11,104 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:24:11,164 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:24:11,997 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.721594
+2025-01-09 20:25:19,052 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.310106
+2025-01-09 20:26:23,760 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.394494
+2025-01-09 20:26:23,760 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:26:34,722 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:26:34,722 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2098，预测错误条目：300
+2025-01-09 20:26:34,722 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.874896
+2025-01-09 20:26:34,722 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:26:34,730 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:26:34,754 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:26:35,153 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:26:35,155 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:26:35,334 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:26:37,055 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.691632
+2025-01-09 20:27:41,107 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.422325
+2025-01-09 20:28:45,859 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.346393
+2025-01-09 20:28:45,860 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.452320
+2025-01-09 20:28:45,860 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:28:57,677 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:28:57,677 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2101，预测错误条目：297
+2025-01-09 20:28:57,677 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.876147
+2025-01-09 20:28:57,677 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:28:57,692 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:28:57,710 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:28:58,117 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:28:58,124 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:28:58,197 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:28:59,952 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.666360
+2025-01-09 20:30:06,426 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.469042
+2025-01-09 20:31:12,449 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.322609
+2025-01-09 20:31:12,449 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.432436
+2025-01-09 20:31:12,449 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:31:24,110 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:31:24,110 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2114，预测错误条目：284
+2025-01-09 20:31:24,110 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.881568
+2025-01-09 20:31:24,110 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:31:24,121 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:31:24,191 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:31:25,931 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:31:25,957 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:31:26,358 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:31:26,816 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.696156
+2025-01-09 20:32:04,796 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.319222
+2025-01-09 20:32:43,750 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.377091
+2025-01-09 20:32:43,750 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:32:50,076 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:32:50,076 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2153，预测错误条目：245
+2025-01-09 20:32:50,076 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.897832
+2025-01-09 20:32:50,076 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:32:50,086 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:32:50,124 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:32:52,024 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:32:52,047 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:32:52,474 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:32:52,919 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.951781
+2025-01-09 20:33:31,848 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.303041
+2025-01-09 20:34:09,231 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.470027
+2025-01-09 20:34:09,231 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:34:15,686 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:34:15,686 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2059，预测错误条目：339
+2025-01-09 20:34:15,686 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.858632
+2025-01-09 20:34:15,686 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:34:15,705 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:34:15,740 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:34:17,591 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:34:17,611 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:34:18,059 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:34:18,892 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.696787
+2025-01-09 20:34:57,523 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.388472
+2025-01-09 20:35:36,652 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.279598
+2025-01-09 20:35:36,652 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.411012
+2025-01-09 20:35:36,652 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:35:46,236 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:35:46,236 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2147，预测错误条目：251
+2025-01-09 20:35:46,236 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.895329
+2025-01-09 20:35:46,236 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:35:46,270 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:35:46,345 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:35:51,576 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:35:51,658 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:35:53,137 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:35:56,247 - test_ai.homework.week7.config.logging_config - INFO - batch loss 2.398809
+2025-01-09 20:37:54,062 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.323165
+2025-01-09 20:39:56,766 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.291664
+2025-01-09 20:39:56,766 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.437882
+2025-01-09 20:39:56,766 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:40:18,186 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:40:18,186 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2120，预测错误条目：278
+2025-01-09 20:40:18,186 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.884070
+2025-01-09 20:40:18,186 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:40:18,223 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:40:18,325 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:40:24,356 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:40:24,423 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:40:25,786 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:40:27,721 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.682971
+2025-01-09 20:42:42,544 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.316981
+2025-01-09 20:44:59,606 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.402400
+2025-01-09 20:44:59,607 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:45:22,044 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:45:22,044 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2148，预测错误条目：250
+2025-01-09 20:45:22,044 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.895746
+2025-01-09 20:45:22,044 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:45:22,071 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:45:22,143 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:45:27,406 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:45:27,468 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:45:28,730 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:45:30,797 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.646374
+2025-01-09 20:47:49,194 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.417929
+2025-01-09 20:49:18,626 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.347095
+2025-01-09 20:49:18,626 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:49:37,780 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:49:37,780 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2172，预测错误条目：226
+2025-01-09 20:49:37,780 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.905755
+2025-01-09 20:49:37,780 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:49:37,790 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:49:37,821 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:49:39,665 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:49:39,686 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:49:40,104 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:49:40,919 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.728156
+2025-01-09 20:50:35,200 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.427012
+2025-01-09 20:52:13,426 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.327656
+2025-01-09 20:52:13,428 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.461869
+2025-01-09 20:52:13,429 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:52:33,807 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:52:33,807 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2094，预测错误条目：304
+2025-01-09 20:52:33,808 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.873228
+2025-01-09 20:52:33,808 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:52:33,840 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:52:33,930 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:52:39,906 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:52:39,968 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:52:41,263 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:52:44,649 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.700915
+2025-01-09 20:54:42,878 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.322809
+2025-01-09 20:55:33,812 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.238529
+2025-01-09 20:55:33,812 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.375216
+2025-01-09 20:55:33,812 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:55:45,619 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:55:45,619 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2157，预测错误条目：241
+2025-01-09 20:55:45,619 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.899500
+2025-01-09 20:55:45,619 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:55:45,627 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:55:45,640 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:55:45,908 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:55:45,912 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:55:45,974 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:55:46,033 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.697603
+2025-01-09 20:55:49,587 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.442610
+2025-01-09 20:55:53,198 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.443649
+2025-01-09 20:55:53,198 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:55:53,720 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:55:53,720 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2105，预测错误条目：293
+2025-01-09 20:55:53,720 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.877815
+2025-01-09 20:55:53,720 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:55:53,728 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:55:53,741 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:55:54,094 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:55:54,098 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:55:54,165 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:55:54,222 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.688452
+2025-01-09 20:55:57,589 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.473272
+2025-01-09 20:56:00,951 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.401450
+2025-01-09 20:56:00,951 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:01,488 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:01,488 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2121，预测错误条目：277
+2025-01-09 20:56:01,488 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.884487
+2025-01-09 20:56:01,488 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:01,495 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:56:01,508 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:56:01,789 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:56:01,793 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:56:01,858 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:56:01,951 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.684228
+2025-01-09 20:56:04,720 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.489434
+2025-01-09 20:56:07,499 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.374121
+2025-01-09 20:56:07,499 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.494881
+2025-01-09 20:56:07,499 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:07,966 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:07,966 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2075，预测错误条目：323
+2025-01-09 20:56:07,966 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.865304
+2025-01-09 20:56:07,966 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:07,974 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:56:07,986 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:56:08,269 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:56:08,273 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:56:08,336 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:56:08,432 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.697961
+2025-01-09 20:56:11,230 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.499776
+2025-01-09 20:56:14,041 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.277201
+2025-01-09 20:56:14,041 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.454857
+2025-01-09 20:56:14,041 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:14,523 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:14,523 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：2078，预测错误条目：320
+2025-01-09 20:56:14,523 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.866555
+2025-01-09 20:56:14,523 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:14,531 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:56:14,544 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:56:14,893 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:56:14,898 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:56:14,961 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:56:15,016 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.693737
+2025-01-09 20:56:18,613 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.575549
+2025-01-09 20:56:22,233 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.608620
+2025-01-09 20:56:22,233 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:22,878 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:22,878 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1661，预测错误条目：737
+2025-01-09 20:56:22,878 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.692661
+2025-01-09 20:56:22,878 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:22,886 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:56:22,900 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:56:23,185 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:56:23,189 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:56:23,254 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:56:23,312 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.697698
+2025-01-09 20:56:26,878 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.636595
+2025-01-09 20:56:30,408 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.602718
+2025-01-09 20:56:30,408 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:30,971 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:30,971 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1903，预测错误条目：495
+2025-01-09 20:56:30,971 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.793578
+2025-01-09 20:56:30,971 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:30,979 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:56:30,992 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:56:31,261 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:56:31,266 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:56:31,330 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:56:31,421 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.703979
+2025-01-09 20:56:34,302 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.665619
+2025-01-09 20:56:37,389 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.655694
+2025-01-09 20:56:37,389 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.661446
+2025-01-09 20:56:37,389 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:37,884 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:37,884 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1594，预测错误条目：804
+2025-01-09 20:56:37,884 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.664721
+2025-01-09 20:56:37,884 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:37,892 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 20:56:37,905 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 20:56:38,260 - test_ai.homework.week7.config.logging_config - INFO - gpu不可以使用
+2025-01-09 20:56:38,265 - test_ai.homework.week7.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week7\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 20:56:38,330 - test_ai.homework.week7.config.logging_config - INFO - epoch 1 begin
+2025-01-09 20:56:38,413 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.688105
+2025-01-09 20:56:41,447 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.633203
+2025-01-09 20:56:44,567 - test_ai.homework.week7.config.logging_config - INFO - batch loss 0.585917
+2025-01-09 20:56:44,567 - test_ai.homework.week7.config.logging_config - INFO - epoch average loss: 0.642749
+2025-01-09 20:56:44,567 - test_ai.homework.week7.config.logging_config - INFO - 开始测试第1轮模型效果：
+2025-01-09 20:56:45,113 - test_ai.homework.week7.config.logging_config - INFO - 预测集合条目总量：2398
+2025-01-09 20:56:45,113 - test_ai.homework.week7.config.logging_config - INFO - 预测正确条目：1594，预测错误条目：804
+2025-01-09 20:56:45,113 - test_ai.homework.week7.config.logging_config - INFO - 预测准确率：0.664721
+2025-01-09 20:56:45,113 - test_ai.homework.week7.config.logging_config - INFO - --------------------
+2025-01-09 20:56:45,121 - test_ai.homework.week7.config.logging_config - INFO - 本次数据已成功记录到 D:\PycharmProjects\pythonProject\test_ai\homework\week7\output\result_data_1736424693.6987762.csv
+2025-01-09 21:19:46,127 - test_ai.homework.week07.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week07\data\processed\train_data.csv 95%分位数约：68
+2025-01-09 21:19:47,010 - test_ai.homework.week07.config.logging_config - INFO - gpu不可以使用
+2025-01-09 21:19:47,019 - test_ai.homework.week07.config.logging_config - INFO - D:\PycharmProjects\pythonProject\test_ai\homework\week07\data\processed\valid_data.csv 95%分位数约：73
+2025-01-09 21:19:47,089 - test_ai.homework.week07.config.logging_config - INFO - epoch 1 begin
+2025-01-09 21:19:48,064 - test_ai.homework.week07.config.logging_config - INFO - batch loss 0.704774

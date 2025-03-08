@@ -19,16 +19,14 @@ import matplotlib.pyplot as plt
 class TorchModel(nn.Module):
     def __init__(self, input_size):
         super(TorchModel, self).__init__()
-        self.linear = nn.Linear(input_size, 5)  # 线性层
-        self.activation = torch.sigmoid  # sigmoid激活函数
-        self.loss = nn.CrossEntropyLoss()  # loss函数采用交叉熵 (y_pred: (batch_size, 5), y: (batch_size, 1)), 标签是整数
+        self.linear = nn.Linear(input_size, 5)  # 线性层 输入5维，输出5维
+        self.loss = nn.functional.cross_entropy  # loss函数采用交叉熵
 
     # 当输入真实标签，返回loss值；无真实标签，返回预测值
     def forward(self, x, y=None):
-        x = self.linear(x)  # (batch_size, input_size) -> (batch_size, 5)
-        y_pred = self.activation(x)  # (batch_size, 5) -> (batch_size, 5)
+        y_pred = self.linear(x)  # (batch_size, input_size) -> (batch_size, 5)
         if y is not None:
-            return self.loss(y_pred, y.flatten())  # 预测值和真实值计算损失
+            return self.loss(y_pred, y)  # 预测值和真实值计算损失
         else:
             return y_pred  # 输出预测结果
 
@@ -48,8 +46,8 @@ def build_dataset(total_sample_num):
     for i in range(total_sample_num):
         x, y = build_sample()
         X.append(x)
-        Y.append([y])
-    return torch.FloatTensor(np.array(X)), torch.LongTensor(np.array(Y))
+        Y.append(y)
+    return torch.FloatTensor(X), torch.LongTensor(Y)
 
 # 测试代码
 # 用来测试每轮模型的准确率
@@ -60,9 +58,9 @@ def evaluate(model):
     print("本次预测集中共有%d个样本" % (len(y)))
     correct, wrong = 0, 0
     with torch.no_grad():
-        y_pred: torch.FloatTensor = model(x)  # 模型预测 model.forward(x)
+        y_pred = model(x)  # 模型预测 model.forward(x)
         for y_p, y_t in zip(y_pred, y):  # 与真实标签进行对比
-            if y_p.argmax().eq(y_t):
+            if y_p.argmax() == (y_t):
                 correct += 1  # 样本判断正确
             else:
                 wrong += 1

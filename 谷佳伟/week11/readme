@@ -1,0 +1,5 @@
+第十一周作业：对Bert大模型进行SFT训练
+需要注意的点：
+1.添加cls，sep等特殊token；
+2.对prompt和answer进行SFT训练；
+3.loss仍然是逐字计算交叉熵，但并不需要对所有字都计算，这里忽略label为-1的情况

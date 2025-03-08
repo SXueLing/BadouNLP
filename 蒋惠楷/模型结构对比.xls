@@ -1,0 +1,21 @@
+模型	位置编码	transformer结构	多头机制	ff层设计	归一化层选择	激活函数	是否使用bias	备注
+baichuan2-7b	RoPE	串行	multi-head	Gated FFN	RMSNorm / Pre-LN	SiLU	无bias	
+baichuan2-13b	Alibi	串行	multi-head	Gated FFN	RMSNorm / Pre-LN	SiLU	无bias	
+chatglm2	RoPE	串行	multi-query	Gated FFN	RMSNorm / Pre-LN	SiLU	qkv有bias,其他线性层无bias	在swiglu激活函数中使用门控机制
+chatglm3	RoPE	串行	multi-query	Gated FFN	RMSNorm / Pre-LN	SiLU	qkv有bias,其他线性层无bias	在swiglu激活函数中使用门控机制
+llama2	RoPE	串行	multi-head	Gated FFN	RMSNorm / Pre-LN	SiLU	无bias	n_kv_heads is None,qkv一致
+moss	RoPE	平行(GPTJ方式)	multi-head	传统 FFN	LayerNorm	gelu_new	qkv无bias,ffn有bias(默认)	
+qwen-7b	RoPE	串行	multi-head	Gated FFN	RMSNorm / Pre-LN	SiLU	无bias	
+deepseek	RoPE	串行	MLA	"MoE(共享专家)
+Gated FFN"	RMSNorm / Pre-LN	SiLU	无bias	"q_head_dim=192,kv_head_dim=128
+num_hidden_layers=61
+layer_idx>=3启用DeepseekV3MoE,
+layer_idx<3仅启用DeepseekV3MLP
+shared_expert=1,routed_expert=256"
+mixtral	RoPE	串行	grouped-query	"MoE(TOP2)
+Gated FFN"	RMSNorm / Pre-LN	SiLU	无bias	q_num=32,kv_num=8
+grok1	RoPE	串行	multi-head(32)	"MoE(TOP2)
+Gated FFN"	RMSNorm / Pre-LN	GeLU	无bias	
+gemma	RoPE	串行	multi-head(16)	Gated FFN	RMSNorm / Pre-LN	GeLU	无bias	
+DBRX	RoPE	串行	Grouped-query	"MoE(TOP4)
+Gated FFN"	LayerNorm / Sandwich-LN	SiLU	无bias	q_num=48,kv_num=8

@@ -1,0 +1,7 @@
+model_type	learning_rate	hidden_size	batch_size	pooling_style	acc
+rnn	0.00001	256	16	avg	0.862385
+rnn	0.00001	256	16	max	0.866972
+lstm	0.00001	256	16	max	0.870726
+lstm	0.00001	128	16	max	0.846122
+stack_gated_cnn	0.00001	128	16	max	0.867807
+stack_gated_cnn	0.0001	128	16	max	0.884487

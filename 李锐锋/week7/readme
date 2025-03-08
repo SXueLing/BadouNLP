@@ -1,0 +1,7 @@
+第七周作业
+
+最终指标
+         Model  Learning Rate  Accuracy  Training Time (seconds)
+0          RNN          0.001  0.751877                 1.119986
+1         LSTM          0.001  0.748123                 2.862685
+2  transformer          0.001  0.786072                42.967900

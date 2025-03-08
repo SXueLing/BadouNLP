@@ -1,0 +1,143 @@
+# Emebedding和pool会吃掉语序信息
+  # 陶婷婷第三周作业
+
+"""
+尝试修改nlpdemo，做一个多分类任务，判断特定字符在字符串的第几个位置，使用rnn和交叉熵
+
+"""
+import json
+import random
+
+# 1.导入
+import torch
+import torch.nn as nn
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
+# # 构建模型
+class RnnModel(nn.Module):
+    def __init__(self, vocab, vector_dim, sentence_length, input_size, hidden_size):
+        super(RnnModel, self).__init__()
+        # len(vocab) 字符集字符总数, vector_dim 每个字符向量化后的向量维度, 一般试出来的 128 256, 512 等等, padding_idx=0 pad都是0
+        self.layer = nn.RNN(input_size, hidden_size, bias=False, batch_first=True)
+        self.liner = nn.Linear(vector_dim, 1)
+        self.activation = torch.sigmoid
+        self.loss = nn.functional.cross_entropy
+
+    def forward(self, x, y=None):
+        x = self.layer(x)
+        x = self.liner(x)
+
+        y_pred = self.activation(x)
+        print('y_pred', y_pred)
+        if y is not None:
+            return self.loss(y_pred, y)
+        else:
+            return y_pred
+
+
+# 构造字符表
+def build_vocab():
+    charts = '你我他defghijklmnopqrstuvwxyz'
+    vocab = {"pad": 0}
+    for index, charts in enumerate(charts):
+        vocab[charts] = index + 1
+    vocab['unk'] = len(vocab)
+    print('vocab', vocab)
+    return vocab
+
+# 训练规律
+def bulid_smaple(vocab, sentence_length):
+    x = [random.choice(list(vocab.keys())) for _ in range(sentence_length)]
+    print('x', x)
+    if set('你') & set(x):
+        y = 1
+    else:
+        y = 0
+    ## vocab 是一个字典，其中键是字符，值是字符对应的索引。列表推导式 [vocab[s] for s in string] 会遍历字符串 string 中的每个字符 s，
+    # 然后从字典 vocab 中获取字符 s 对应的索引，并将索引添加到一个新的列表中
+    x = [vocab.get(word, vocab['unk']) for word in x]
+    # print('x, y------', x, y)
+    return x, y
+
+#建立数据集
+def build_dataset(sample_length, vocab, sentence_length):
+    datasetx = []
+    datasety = []
+    for i in range(sample_length):
+        x, y = bulid_smaple(vocab, sentence_length)
+        datasetx.append(x)
+        datasety.append(y)
+    # print('datasetx, datasety', datasetx, datasety)
+    return torch.LongTensor(datasetx), torch.FloatTensor(datasety)
+
+
+def evaluate(model, vocab, sentence_length):
+    model.eval()
+    x, y = build_dataset(200, vocab, sentence_length)
+    corrent, wrong = 0, 0
+    with torch.no_grad():
+        y_pred = model(x)
+        for y_p, y_t in zip(y_pred, y):
+            if float(y_p) < 0.5 and int(y_t) == 0:
+                corrent += 1
+            elif float(y_p) > 0.5 and int(y_t) == 0:
+                corrent += 1
+            else:
+                wrong += 1
+    return corrent /(corrent + wrong)
+
+
+
+def main():
+    # 配置参数
+    epoch_num = 10
+    batch_size = 20
+    train_sample = 500
+    char_dim = 20
+    sentence_length = 6
+    learning_rate = 0.005
+    input_size = 128
+    hidden_size = 256
+    # 建立字表
+    vocab = build_vocab()
+    # 建立模型
+    model = RnnModel(vocab, char_dim, sentence_length, input_size, hidden_size)
+    # 选择优化器
+    optim = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    log = []
+    for epoch in range(epoch_num):
+        model.train()
+        watch_loss = []
+        print('---------------')
+        for batch in range(train_sample // batch_size):
+            x, y = build_dataset(batch_size, vocab, sentence_length)
+            print('x-train', x)
+            print('y-train', y)
+            optim.zero_grad()
+            loss = model(x, y)
+            print('loss', loss)
+            loss.backward()
+            optim.step()
+            watch_loss.append(loss.item())
+            print('+++++++++++++++++++')
+
+        print('第%d轮平均loss:%f')
+        acc = evaluate(model, vocab, sentence_length)
+        log.append([acc, np.mean(watch_loss)])
+    # 画图
+    plt.plot(range(len(log)), [l[0] for l in log], label='acc')
+    plt.plot(range(len(log)), [l[1] for l in log], label='loss')
+    plt.legend()
+    plt.show()
+    # 保存模型, 保存模型权重
+    torch.save(model.state_dict(), "model.path")
+    writer = open("vocab.json", 'w', encoding="utf-8")
+    writer.write(json.dump(vocab, ensure_ascii=False, indent=2))
+    writer.close()
+    return
+
+if __name__ == "__main__":
+    main()

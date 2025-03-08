@@ -16,15 +16,17 @@ class TorchModel(nn.Module):
         super(TorchModel, self).__init__()
         # input_size输入样本大小, num_classes表示输出的类别数量
         self.linear = nn.Linear(input_size, num_classes)
+        # 这里不用使用softmax，cross_entropy自带
         # self.activation = torch.softmax
-        self.activation = nn.functional.softmax
+        # self.activation = nn.functional.softmax
         self.loss = nn.functional.cross_entropy
 
     def forward(self, x, y=None):
-        x = self.linear(x)
-        y_pred = self.activation(x, dim=1)
+        # x = self.linear(x)
+        # y_pred = self.activation(x, dim=1)
+        y_pred = self.linear(x)
         if y is None:
-            return y_pred
+            return nn.functional.softmax(y_pred, dim=1)
         else:
             return self.loss(y_pred, y)
 
@@ -96,9 +98,13 @@ def main():
             x = train_x[batch_index * batch_size:(batch_index + 1) * batch_size]
             y = train_y[batch_index * batch_size:(batch_index + 1) * batch_size]
             loss = model.forward(x, y)
+            # 反向传播, 注意这里的loss由x → self.linear → loss得来，其中的调用链使得loss对象可以反向找到self.linear计算其梯度值，即导数值
             loss.backward()
+            # 使用反向传播更新的梯度值，更新权重weight和bias
             optimizer.step()
+            # 梯度归零，避免累积，一批一个梯度计算值
             optimizer.zero_grad()
+            # loss记录
             watch_loss.append(loss.item())
         print("=======第%d轮平均loss为%.2f" % (epoch + 1, np.mean(watch_loss)))
         acc = evaluate(model)
@@ -127,7 +133,8 @@ def predict(model_path, input_vec):
 
 
 if __name__ == '__main__':
-    # main()
+    main()
 
+    # 使用
     x, y = build_data_sets(10)
     predict("model.bin", x)

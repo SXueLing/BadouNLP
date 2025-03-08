@@ -1,0 +1,1 @@
+total_parameter = (vocab_size + max_len + token_type) * hidden_size + num_layers * (3 * (hidden_size + 1) * hidden_size + (hidden_size + 1) * hidden_size + 2 * hidden_size + 2 * hidden_size * (hidden_size * 4) + hidden_size) + (hidden_size * 4) + 2 * hidden_size)

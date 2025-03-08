@@ -1,0 +1,17 @@
+L: 词表长度
+h: hidden_size
+n: 层数
+
+
+#embedding部分
+word_embeddings: L*h
+position_embeddings: 512*h
+token_type_embeddings: 2*h
+
+#attention部分（一层）
+Q,K,V: L*h*n
+attention_output: L*h
+
+#feed_forward部分（一层）
+linear1_output: h*h*4*n
+linear2_output: h*4*h*n

@@ -1,0 +1,15 @@
+模型	        位置编码	  Transformer结构	  多头机制  	FF层设计        	归一化层	    激活函数	bias	      备注
+LLaMA2	      RoPE	    Pre-LayerNorm	  传统多头	      SwiGLU	     RMSNorm	    SiLU	无	    70B版本使用分组查询注意力（GQA）
+Baichuan2-7B	RoPE	    Pre-LayerNorm	  传统多头      	SwiGLU	     RMSNorm	    SiLU	无	    针对中文优化，词表125,696
+Baichuan2-13B	RoPE	    Pre-LayerNorm	  传统多头	      SwiGLU	     RMSNorm	    SiLU	无	    支持4096上下文长度
+ChatGLM2	    RoPE	    Post-LayerNorm	multi query	  GLU  	      LayerNorm	      GeLU	部分层保留	结合CNN和Transformer，推理速度优化
+ChatGLM3	    RoPE	    Post-LayerNorm	multi query    GLU	      LayerNorm	      GeLU	部分层保留	可能引入MoE设计（待确认）
+MOSS	        RoPE	    Post-LayerNorm	传统多头	      GLU	        LayerNorm	      GeLU	保留	支持插件调用，对话任务优化
+Qwen	    动态NTK + RoPE	Pre-LayerNorm	 传统多头     SwiGLU	      RMSNorm	    SiLU	  无	  动态NTK扩展上下文长度，支持多模态
+Mixtral	      RoPE	    Pre-LayerNorm	  传统多头  	    MoE+ SwiGLU	RMSNorm	    SiLU	  无	  稀疏MoE结构，激活参数量低
+Gemma	        RoPE	    Pre-LayerNorm	  multi query	  GeGLU      	RMSNorm	    GeLU	  无	  轻量化设计，参数量2B/7B
+DBRX	        ALiBi	    Pre-LayerNorm	  multi query	  MoE	        RMSNorm	    GeGLU	  无	  每token激活4专家，适合复杂任务
+DeepSeek	    RoPE	    Pre-LayerNorm	  multi query	  SwiGLU	    RMSNorm	    SiLU	无	  支持128K超长上下文，稀疏注意力优化
+PaLM	    相对位置编码	  Pre-LayerNorm	  传统多头	      SwiGLU	LayerNorm	SwiGLU	无	使用并行层设计，训练效率高
+T5	    相对位置编码	    Post-LayerNorm	传统多头	ReLU扩展	LayerNorm	ReLU	保留	Encoder-Decoder结构，文本到文本统一框架
+
