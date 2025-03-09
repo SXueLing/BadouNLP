@@ -14,35 +14,23 @@ class TorchModel(nn.Module):
     def __init__(self, config):
         super(TorchModel, self).__init__()
         hidden_size = config["hidden_size"]
-        vocab_size = config["vocab_size"] + 1
         class_num = config["class_num"]
         num_layers = config["num_layers"]
 
-        self.use_bert = (config["model_type"] == "bert")
-        if self.use_bert:
-            self.layer = BertModel.from_pretrained(
-                config["bert_model"], 
-                num_hidden_layers=num_layers,
-                return_dict=False)
-            hidden_size = self.layer.config.hidden_size # use hidden size from bert model
-            self.classify = nn.Linear(hidden_size, class_num) # bert output is mapped to hidden_size, not 2 * hidden_size
-        else:
-            self.embedding = nn.Embedding(vocab_size, hidden_size, padding_idx=0) # not needed for bert
-            self.layer = nn.LSTM(hidden_size, hidden_size, batch_first=True, bidirectional=True, num_layers=num_layers)
-            self.classify = nn.Linear(hidden_size * 2, class_num) # bidirectional LSTM
-                        
+        self.layer = BertModel.from_pretrained(
+            config["bert_model"], 
+            num_hidden_layers=num_layers,
+            return_dict=False)
+        hidden_size = self.layer.config.hidden_size # use hidden size from bert model
+        self.classify = nn.Linear(hidden_size, class_num) # bert output is mapped to hidden_size, not 2 * hidden_size
+        
         self.crf_layer = CRF(class_num, batch_first=True)
         self.use_crf = config["use_crf"]
         self.loss = torch.nn.CrossEntropyLoss(ignore_index=-1)  #loss采用交叉熵损失
 
     #当输入真实标签，返回loss值；无真实标签，返回预测值
     def forward(self, x, target=None):
-        if self.use_bert:
-            x = self.layer(x)[0] #output shape:(batch_size, sen_len, hidden_size)
-        else: # LSTM
-            x = self.embedding(x)  #input shape:(batch_size, sen_len)
-            x, _ = self.layer(x)  #input shape:(batch_size, sen_len, input_dim)
-            
+        x = self.layer(x)[0] #output shape:(batch_size, sen_len, hidden_size)            
         predict = self.classify(x) #ouput:(batch_size, sen_len, num_tags) -> (batch_size * sen_len, num_tags)
 
         if target is not None:
@@ -62,10 +50,11 @@ class TorchModel(nn.Module):
 def choose_optimizer(config, model):
     optimizer = config["optimizer"]
     learning_rate = config["learning_rate"]
+    # Regular optimization (all parameters)
     if optimizer == "adam":
         return Adam(model.parameters(), lr=learning_rate)
     elif optimizer == "sgd":
-        return SGD(model.parameters(), lr=learning_rate)
+        return torch.optim.SGD(model.parameters(), lr=learning_rate)
 
 
 if __name__ == "__main__":
