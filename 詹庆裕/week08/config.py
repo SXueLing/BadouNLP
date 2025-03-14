@@ -1,0 +1,17 @@
+Config = {
+    "hidden_size": 128,
+    "num_layers": 2,
+    "model_type": "lstm",
+    "optim_type": "adam",
+    "pooling_type": "avg",
+    "bidirectional": False,
+    "batch_size": 128,
+    "num_workers": 4,
+    "epoch": 15,
+    "max_length":15,
+    "vocab_path": "data/chars.txt",
+    "vocab_size": 4623,
+    "lr": 1e-3,
+    "eval_batch_size": 50,
+    "loss_type": "cosEmbedding_loss",
+}

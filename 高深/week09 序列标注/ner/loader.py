@@ -8,6 +8,7 @@ import random
 import jieba
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
+from transformers import BertTokenizer
 
 """
 数据加载
@@ -18,7 +19,10 @@ class DataGenerator:
     def __init__(self, data_path, config):
         self.config = config
         self.path = data_path
-        self.vocab = load_vocab(config["vocab_path"])
+        if config["model_type"] == "bert":
+            self.tokenizer = BertTokenizer.from_pretrained(config["bert_model"])
+        else:
+            self.vocab = load_vocab(config["vocab_path"])
         self.config["vocab_size"] = len(self.vocab)
         self.sentences = []
         self.schema = self.load_schema(config["schema_path"])
@@ -30,7 +34,7 @@ class DataGenerator:
             segments = f.read().split("\n\n")
             for segment in segments:
                 sentenece = []
-                labels = [8] # since BERT add CLS token at the beginning of the sentence, label should be padded to ensure correct mapping
+                labels = [8] # since BERT add CLS token (index 8) at the beginning of the sentence, label should be padded to ensure correct mapping
                 for line in segment.split("\n"):
                     if line.strip() == "":
                         continue
@@ -44,16 +48,22 @@ class DataGenerator:
         return
 
     def encode_sentence(self, text, padding=True):
-        input_id = []
-        if self.config["vocab_path"] == "words.txt":
-            for word in jieba.cut(text):
-                input_id.append(self.vocab.get(word, self.vocab["[UNK]"]))
-        else:
-            for char in text:
-                input_id.append(self.vocab.get(char, self.vocab["[UNK]"]))
-        if padding:
-            input_id = self.padding(input_id)
-        return input_id
+        if self.config["model_type"] == "bert":
+            return self.tokenizer.encode(text, 
+                                         padding="max_length", 
+                                         max_length=self.config["max_length"], 
+                                         truncation=True)
+        else: # LSTM
+            input_id = []
+            if self.config["vocab_path"] == "words.txt":
+                for word in jieba.cut(text):
+                    input_id.append(self.vocab.get(word, self.vocab["[UNK]"]))
+            else:
+                for char in text:
+                    input_id.append(self.vocab.get(char, self.vocab["[UNK]"]))
+            if padding:
+                input_id = self.padding(input_id)
+            return input_id
 
     #补齐或截断输入的序列，使其可以在一个batch内运算
     def padding(self, input_id, pad_token=0):
