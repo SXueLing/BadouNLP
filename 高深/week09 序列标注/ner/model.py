@@ -5,6 +5,7 @@ import torch.nn as nn
 from torch.optim import Adam, SGD
 from torchcrf import CRF
 from transformers import BertModel
+
 """
 建立网络模型结构
 """
@@ -14,10 +15,8 @@ class TorchModel(nn.Module):
         super(TorchModel, self).__init__()
         hidden_size = config["hidden_size"]
         vocab_size = config["vocab_size"] + 1
-        max_length = config["max_length"]
         class_num = config["class_num"]
         num_layers = config["num_layers"]
-        self.embedding = nn.Embedding(vocab_size, hidden_size, padding_idx=0)
 
         self.use_bert = (config["model_type"] == "bert")
         if self.use_bert:
@@ -28,6 +27,7 @@ class TorchModel(nn.Module):
             hidden_size = self.layer.config.hidden_size # use hidden size from bert model
             self.classify = nn.Linear(hidden_size, class_num) # bert output is mapped to hidden_size, not 2 * hidden_size
         else:
+            self.embedding = nn.Embedding(vocab_size, hidden_size, padding_idx=0) # not needed for bert
             self.layer = nn.LSTM(hidden_size, hidden_size, batch_first=True, bidirectional=True, num_layers=num_layers)
             self.classify = nn.Linear(hidden_size * 2, class_num) # bidirectional LSTM
                         
