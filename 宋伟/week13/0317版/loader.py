@@ -36,7 +36,7 @@ class MyDataSet(Dataset):
                 sentence = ''.join(sentence)
                 self.sentences.append(sentence)
                 input_ids = self.encode_sentence(sentence)
-                label_ids = self.padding(label_ids, -1)  # 使用-1进行空余位置的填充
+                label_ids = self.padding(label_ids, self.config['label_padding_token'])  # 使用-1进行空余位置的填充
                 data['input_ids'] = input_ids
                 data['labels'] = label_ids
                 self.data.append(data)
@@ -62,7 +62,7 @@ class MyDataSet(Dataset):
         return sentence_ids
 
 
-    def padding(self, label_ids: list,pad_token=0)->torch.Tensor:
+    def padding(self, label_ids: list,pad_token)->torch.Tensor:
         # 进行标签的填充处理，这里的标签填充不能是-1，
         # 返回一个一维张量；[seq,]
         label_ids = label_ids[:self.config['max_length']]
