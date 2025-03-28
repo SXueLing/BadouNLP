@@ -1,0 +1,28 @@
+[
+{
+"id":"node1",
+"intent":["我要看电影"],
+"slot":["#电影类型#"],
+"response":"为您推荐 #电影类型#类电影 xxx",
+"childnode":["node2", "node3", "node4"],
+"is_entrance": true
+},
+{
+"id":"node2",
+"intent":["我要买爆米花"],
+"response":"爆米花添加到购物车",
+"childnode":["node3", "node4"]
+},
+{
+"id":"node3",
+"intent":["我要买可乐"],
+"response":"可乐添加到购物车",
+"childnode":["node2", "node4"]
+},
+{
+"id":"node4",
+"intent":["就看这个", "好", "下单"],
+"action":["TAKE_ORDER"],
+"response":"购票成功，谢谢惠顾"
+}
+]

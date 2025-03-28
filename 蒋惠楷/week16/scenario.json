@@ -1,0 +1,75 @@
+[
+{
+    "id":"node1",
+    "intent":["我要买衣服"],
+    "slot":["#服装类型#", "#服装颜色#", "#服装尺寸#"],
+    "action":["select 衣服 where 类型=#服装类型# and 颜色=#服装颜色# and 尺寸=#服装尺寸#"],
+    "response":"为您推荐这一款，#服装尺寸#号，#服装颜色#色#服装类型#，产品连接：xxx",
+    "childnode":["node2", "node3", "node4"]
+},
+{
+    "id":"node2",
+    "intent":["我没钱"],
+    "response":"没钱你可以选择分期付款",
+    "childnode":["node3"]
+},
+{
+    "id":"node3",
+    "intent":["可以分期付款吗"],
+    "slot":["#分期付款期数#", "#支付方式#"],
+    "action":["MAKE_PAYMENT"],
+    "response":"好的，为您办理分期付款，分#分期付款期数#期，使用#支付方式#支付，谢谢惠顾"
+},
+{
+    "id":"node4",
+    "intent":["我买了"],
+    "action":["TAKE_ORDER"],
+    "response":"已为您下单，谢谢惠顾。"
+},
+{
+    "id": "node5",
+    "intent": ["我要退货"],
+    "slot": ["#订单号#", "#退货原因#"],
+    "action": ["PROCESS_RETURN"],
+    "response": "您的订单#订单号#由于#退货原因#申请退货, 为你转到退货页面。",
+    "childnode": ["node6"]
+},
+{
+    "id": "node6",
+    "intent": ["选择退货方式"],
+    "slot": ["#退货方式#"],
+    "response": "您选择#退货方式#退货, 退货审核一般需要1-3个工作日, 请耐心等待。",
+    "childnode": ["node7", "node8", "node9"]
+},
+{
+    "id": "node7",
+    "intent": ["我选择退款退货"],
+    "response": "好的，请前往退款页面填写退款信息。"
+},
+{
+    "id": "node8",
+    "intent": ["我选择仅退款"],
+    "response": "好的，请前往退款页面填写退款信息。"
+},
+{
+    "id": "node9",
+    "intent": ["我的订单在哪"],
+    "slot": ["#订单号#"],
+    "action": ["CHECK_ORDER_STATUS"],
+    "response": "您的订单 #订单号# 目前配送中, 可前往订单页面查看详情。",
+    "childnode": ["node5", "node10", "node11"]
+},
+{
+    "id":"node10",
+    "intent":["我要投诉"],
+    "slot":["#投诉内容#"],
+    "action":["PROCESS_COMPLAINT"],
+    "response":"您的投诉内容：#投诉内容#。请耐心等待客服处理。"
+},
+{
+    "id":"node11",
+    "intent":["我要催单"],
+    "action":["REMIND_DELIVERY"],
+    "response":"好的，我已经帮您催单了，请耐心等待。"
+}
+]
