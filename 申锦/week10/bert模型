@@ -1,0 +1,113 @@
+#coding:utf8
+
+import torch
+import torch.nn as nn
+import numpy as np
+import math
+import random
+import os
+import re
+from transformers import BertTokenizer ,BertForMaskedLM
+
+"""
+基于pytorch的BERT语言模型
+"""
+
+# 加载语料
+def load_corpus(path):
+    corpus = ""
+    with open(path, encoding="gbk") as f:
+        for line in f:
+            corpus += line.strip()
+    return corpus
+
+# 随机生成一个样本
+# 从文本中截取随机窗口，前n个字作为输入，最后一个字作为输出
+def build_sample(corpus, window_size, tokenizer):
+    start = random.randint(0, len(corpus) - 1 - window_size)
+    end = start + window_size
+    window = corpus[start:end]
+    target = corpus[start + 1:end + 1]  # 输入输出错开一位
+    inputs = tokenizer(window, return_tensors='pt', max_length=window_size, padding='max_length', truncation=True)
+    labels = tokenizer(target, return_tensors='pt', max_length=window_size, padding='max_length', truncation=True)
+    return inputs, labels
+
+# 建立数据集
+# sample_length 输入需要的样本数量。需要多少生成多少
+# window_size 样本长度
+# corpus 语料字符串
+def build_dataset(sample_length, window_size, corpus, tokenizer):
+    dataset_x = []
+    dataset_y = []
+    for i in range(sample_length):
+        x, y = build_sample(corpus, window_size, tokenizer)
+        dataset_x.append(x['input_ids'])
+        dataset_y.append(y['input_ids'])
+    return torch.cat(dataset_x, dim=0), torch.cat(dataset_y, dim=0)
+
+# 建立模型
+def build_model():
+    tokenizer = BertTokenizer.from_pretrained(r"E:\pythonProject\北京-学习资料\week6\bert-base-chinese", return_dict=False)
+    model = BertForMaskedLM.from_pretrained(r"E:\pythonProject\北京-学习资料\week6\bert-base-chinese", return_dict=False)
+    return tokenizer, model
+
+# 文本生成测试代码
+def generate_sentence(openings, model, tokenizer, max_length=30):
+    model.eval()
+    with torch.no_grad():
+        inputs = tokenizer(openings, return_tensors='pt', max_length=max_length, padding=True, truncation=True)
+        input_ids = inputs['input_ids']
+        attention_mask = inputs['attention_mask']
+        outputs = model.generate(input_ids, attention_mask=attention_mask, max_length=max_length)
+        generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return generated_text
+
+# 计算文本ppl
+def calc_perplexity(sentence, model, tokenizer):
+    model.eval()
+    with torch.no_grad():
+        inputs = tokenizer(sentence, return_tensors='pt', max_length=512, padding=True, truncation=True)
+        input_ids = inputs['input_ids']
+        attention_mask = inputs['attention_mask']
+        outputs = model(input_ids, attention_mask=attention_mask, labels=input_ids)
+        loss = outputs.loss
+        perplexity = torch.exp(loss)
+    return perplexity.item()
+
+def train(corpus_path, save_weight=True):
+    epoch_num = 20        # 训练轮数
+    batch_size = 256       # 每次训练样本个数
+    train_sample = 50000  # 每轮训练总共训练的样本总数
+    window_size = 10      # 样本文本长度
+    max_length = 512
+
+    corpus = load_corpus(corpus_path)     # 加载语料
+    tokenizer, model = build_model()
+
+    if torch.cuda.is_available():
+        model = model.cuda()
+    optim = torch.optim.Adam(model.parameters(), lr=1e-5)   # 建立优化器
+    print("文本词表模型加载完毕，开始训练")
+    for epoch in range(epoch_num):
+        model.train()
+        total_loss = 0
+        dataset_x, dataset_y = build_dataset(train_sample, window_size, corpus, tokenizer)
+
+        for i in range(0, len(dataset_x), batch_size):
+            input_ids = dataset_x[i:i + batch_size]
+            labels = dataset_y[i:i + batch_size]
+            optim.zero_grad()
+            outputs = model(input_ids, labels=labels)
+            loss = outputs[0]
+            # loss = outputs.loss
+            loss.backward()
+            optim.step()
+            total_loss += loss.item()
+        print("=========\n第%d轮平均loss:%f" % (epoch + 1, total_loss / (len(dataset_x) / batch_size)))
+        print(generate_sentence("让他在半年之前，就不能做出", model, tokenizer))
+        print(generate_sentence("李慕站在山路上，深深的呼吸", model, tokenizer))
+    if save_weight:
+        model.save_pretrained('model/bert_model')
+
+if __name__ == "__main__":
+    train("corpus.txt", save_weight=True)

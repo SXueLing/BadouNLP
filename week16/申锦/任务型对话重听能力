@@ -1,0 +1,152 @@
+"""
+对话系统
+
+"""
+import json
+import pandas as pd
+import re
+
+class DialogueSystem:
+    def __init__(self):
+        #加载数据
+        self.load()
+        self.prec_memory = None
+
+
+    def load(self):
+        self.node_info={}
+        self.load_scenario("scenario-买衣服.json")
+        self.load_slot_template("slot_fitting_templet.xlsx")
+
+    def load_scenario(self, file_name):
+        with open(file_name, 'r',encoding='utf-8') as f:
+            self.scenario = json.load(f)
+        scenario_name = file_name.split('.')[0]
+        for node in self.scenario:
+            self.node_info[scenario_name  + node['id']] = node
+            if 'childnode' in node:
+                node['childnode'] = [scenario_name  + child for child in node['childnode']] #改名
+
+    def load_slot_template(self, file_name):
+        # slot	query	values
+        self.slot_template = pd.read_excel(file_name)
+        self.slot_to_gv = {}
+        for index, row in self.slot_template.iterrows():
+            slot = row['slot']
+            query = row['query']
+            values = row['values']
+            self.slot_to_gv[slot]= [query, values]
+
+    def get_response(self, query, memory):
+        if query == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        memory['query'] = query
+        memory  = self.nlu(memory)
+        memory = self.dst(memory)
+        memory = self.dpo(memory)
+        memory = self.nlg(memory)
+        self.prec_memory = memory
+        return memory
+
+    def nlu(self, memory):
+        if memory['query'] == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        memory = self.nlu_slot(memory)
+        memory = self.slot_filltting(memory)
+        return memory
+
+    def nlu_slot(self, memory):
+        if query == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        #意图识别
+        max_score = -1
+        for node_name in memory['available_nodes']:
+            nodes_info = self.node_info[node_name]
+            score = self.intent_recognize(memory['query'], nodes_info)
+            if score > max_score:
+                max_score = score
+                memory['hit_name'] = node_name
+        return memory
+
+    def intent_recognize(self, query, nodes_info):
+
+        intent_list = nodes_info['intent']
+        score = 0
+        for intent in intent_list:
+            score = max(score, self.match_intent(query, intent))
+        return score
+
+    def match_intent(self, intent,query):
+        #jaccard 计算距离
+        set1 = set(query)
+        set2 = set(intent)
+        return len(set1 & set2) / len(set1 | set2)
+
+    def slot_filltting(self, memory):
+        if query == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        #槽位填充
+        slot_list = self.node_info[memory['hit_name']].get('slot',[])
+        for slot in slot_list:
+            slot_value = self.slot_to_gv[slot][1]
+            if re.search(slot_value, memory['query']):
+                memory[slot] = re.search(slot_value, memory['query']).group()
+        return memory
+
+
+    def dst(self, memory):
+        if query == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        #更新记忆
+        slot_list = self.node_info[memory['hit_name']].get('slot',[])
+        for slot in slot_list:
+            if slot not in memory:
+                memory['requele_slot'] = slot
+                return memory
+        memory['requele_slot'] = None
+        return memory
+
+    def dpo(self, memory):
+        if query == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        # 如果requile_slot为空，执行当前节点
+        if memory['requele_slot'] is None:
+            memory['polocy'] = 'reply'
+            childnodes = self.node_info[memory['hit_name']].get('childnode',[]) #下一节点
+            memory['available_nodes'] = childnodes
+        else:
+            memory['polocy'] = 'ask'
+            memory['available_nodes'] = [memory['hit_name']]
+        return memory
+
+    def nlg(self, memory):
+        if query == '再说一次' and self.prec_memory:
+            return self.prec_memory
+        #生成回复
+        if memory['polocy'] == 'reply':
+            response = self.node_info[memory['hit_name']]['response']
+            response = self.fill_in_template(response, memory)
+            memory['response'] = response
+        else:
+            slot = memory['requele_slot']
+            memory['response'] = self.slot_to_gv[slot][0]
+        return memory
+
+    def fill_in_template(self, response, memory):
+        slot_list = self.node_info[memory['hit_name']].get('slot', [])
+        for slot in slot_list:
+            if slot in response:
+                response = response.replace(slot, memory[slot])
+        return response
+
+
+if  __name__ == '__main__':
+    ds = DialogueSystem()
+    print(ds.node_info)
+    print(ds.slot_to_gv)
+    memory = {'available_nodes': ["scenario-买衣服node1"]}
+    while True:
+        query = input('请输入你的问题：')
+        memory = ds.get_response(query, memory)
+        print(memory['response'])
+

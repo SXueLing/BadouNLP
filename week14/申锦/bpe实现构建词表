@@ -1,0 +1,34 @@
+import sentencepiece as spm
+import tempfile
+
+def build_bpe_vocab(vocab_path, output_model_prefix, vocab_size=1764):  # 修改词表大小为 1764
+    try:
+        # 构建 BPE 模型的命令
+        command = f'--input={vocab_path} --model_prefix={output_model_prefix} --vocab_size={vocab_size} ' \
+                  f'--model_type=bpe --character_coverage=0.9995 --pad_id=3'
+        # 训练 BPE 模型
+        spm.SentencePieceTrainer.Train(command)
+        print(f"成功构建 BPE 词表，模型文件为 {output_model_prefix}.model，词表文件为 {output_model_prefix}.vocab")
+    except Exception as e:
+        print(f"构建词表时出错: {e}")
+
+
+if __name__ == "__main__":
+    vocab_path = r'E:\pythonProject\北京-学习资料\作业\week14\bpe\矮人直升机.txt'
+    try:
+        with open(vocab_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', delete=False) as temp_file:
+            temp_file.write(content)
+            temp_vocab_path = temp_file.name
+
+        output_model_prefix = 'bpe_model'
+        build_bpe_vocab(temp_vocab_path, output_model_prefix)
+
+    except Exception as e:
+        print(f"处理文件时出错: {e}")
+    finally:
+
+        import os
+        if 'temp_vocab_path' in locals():
+            os.remove(temp_vocab_path)
